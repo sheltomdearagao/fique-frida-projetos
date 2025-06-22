@@ -1,24 +1,56 @@
 
 import { useState } from "react";
 import Header from "@/components/Header";
-import { CreditCard, QrCode, Mail, Lock, User, Phone } from "lucide-react";
+import { CreditCard, QrCode, Mail, User, Phone } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { usePurchases } from "@/hooks/usePurchases";
 
 export default function Pagamento() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { createPurchase } = usePurchases();
+  
   const [metodoPagamento, setMetodoPagamento] = useState('pix');
   const [dadosFormulario, setDadosFormulario] = useState({
     email: '',
     nome: '',
-    telefone: '',
-    endereco: '',
-    cep: '',
-    cidade: ''
+    telefone: ''
   });
+
+  // Pegar dados do produto da navegação (se houver)
+  const produto = location.state?.produto;
 
   const handleInputChange = (campo: string, valor: string) => {
     setDadosFormulario(prev => ({
       ...prev,
       [campo]: valor
     }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!produto) {
+      alert('Produto não encontrado. Volte e selecione um produto.');
+      return;
+    }
+
+    if (!dadosFormulario.email.includes('@gmail.com')) {
+      alert('Por favor, use um endereço Gmail válido para acessar as aulas.');
+      return;
+    }
+
+    try {
+      await createPurchase.mutateAsync({
+        productId: produto.id,
+        userEmail: dadosFormulario.email
+      });
+      
+      // Redirecionar para página de sucesso
+      navigate('/sucesso');
+    } catch (error) {
+      console.error('Erro ao processar pagamento:', error);
+    }
   };
 
   return (
@@ -38,14 +70,18 @@ export default function Pagamento() {
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start pb-4 border-b border-frida-beige">
                 <div className="mb-2 sm:mb-0">
-                  <h3 className="font-bold text-sm sm:text-base">Shoulder Bag Moderna</h3>
+                  <h3 className="font-bold text-sm sm:text-base">
+                    {produto?.nome || 'Shoulder Bag Moderna'}
+                  </h3>
                   <p className="text-xs sm:text-sm text-frida-dark/70">Moldes PDF + Aula YouTube</p>
                 </div>
-                <span className="font-bold text-frida-red text-sm sm:text-base">R$ 49,90</span>
+                <span className="font-bold text-frida-red text-sm sm:text-base">
+                  {produto?.preco || 'R$ 49,90'}
+                </span>
               </div>
               <div className="flex justify-between items-center font-bold text-base sm:text-lg pt-2">
                 <span>Total:</span>
-                <span className="text-frida-red">R$ 49,90</span>
+                <span className="text-frida-red">{produto?.preco || 'R$ 49,90'}</span>
               </div>
             </div>
           </div>
@@ -56,7 +92,7 @@ export default function Pagamento() {
               Dados para Entrega
             </h2>
             
-            <form className="space-y-4 sm:space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
               {/* Email */}
               <div>
                 <label className="block text-frida-dark font-medium mb-2 text-sm sm:text-base">
@@ -152,9 +188,12 @@ export default function Pagamento() {
 
               <button 
                 type="submit"
-                className="w-full bg-frida-red text-white py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-lg hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg"
+                disabled={createPurchase.isPending}
+                className="w-full bg-frida-red text-white py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-lg hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Finalizar Pagamento - R$ 49,90
+                {createPurchase.isPending 
+                  ? 'Processando...' 
+                  : `Finalizar Pagamento - ${produto?.preco || 'R$ 49,90'}`}
               </button>
             </form>
           </div>

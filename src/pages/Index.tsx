@@ -34,7 +34,7 @@ const Index = () => {
         id: projeto.id,
         nome: projeto.nome,
         preco: projeto.preco,
-        precoNumerico: parseFloat(projeto.preco.replace('R$ ', '').replace(',', '.')),
+        precoNumerico: projeto.precoNumerico || parseFloat(projeto.preco.replace('R$ ', '').replace(',', '.')),
         quantidade: 1,
         imagem: projeto.imagem
       }]);
