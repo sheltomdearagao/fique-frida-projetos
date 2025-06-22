@@ -26,47 +26,65 @@ export default function Carrinho({ isOpen, onClose, items, onUpdateQuantity, onR
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl max-w-md w-full max-h-[80vh] overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h3 className="font-display text-xl text-frida-red font-bold">
+      <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-hidden shadow-2xl">
+        <div className="flex justify-between items-center p-4 sm:p-6 border-b border-frida-beige bg-frida-beige/30">
+          <h3 className="font-display text-lg sm:text-xl text-frida-red font-bold">
             Seu Carrinho
           </h3>
-          <button onClick={onClose} className="text-frida-dark/60 hover:text-frida-dark">
+          <button 
+            onClick={onClose} 
+            className="text-frida-dark/60 hover:text-frida-dark p-1 hover:bg-frida-beige rounded-full transition-colors"
+          >
             <X size={24} />
           </button>
         </div>
 
-        <div className="overflow-y-auto max-h-96">
+        <div className="overflow-y-auto max-h-[50vh] sm:max-h-96">
           {items.length === 0 ? (
-            <div className="p-6 text-center">
+            <div className="p-6 sm:p-8 text-center">
               <ShoppingCart className="mx-auto mb-4 text-frida-dark/40" size={48} />
-              <p className="text-frida-dark/60">Seu carrinho está vazio</p>
+              <p className="text-frida-dark/60 text-sm sm:text-base">Seu carrinho está vazio</p>
+              <p className="text-frida-dark/40 text-xs sm:text-sm mt-2">
+                Adicione alguns produtos incríveis!
+              </p>
             </div>
           ) : (
-            <div className="p-4 space-y-4">
+            <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
               {items.map(item => (
-                <div key={item.id} className="flex gap-4 p-4 bg-frida-beige rounded-lg">
-                  <img src={item.imagem} alt={item.nome} className="w-16 h-16 object-cover rounded" />
-                  <div className="flex-1">
-                    <h4 className="font-bold text-frida-dark mb-1">{item.nome}</h4>
-                    <p className="text-frida-red font-bold">{item.preco}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <button 
-                        onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantidade - 1))}
-                        className="p-1 bg-white rounded hover:bg-frida-orange/10"
-                      >
-                        <Minus size={16} />
-                      </button>
-                      <span className="mx-2 font-bold">{item.quantidade}</span>
-                      <button 
-                        onClick={() => onUpdateQuantity(item.id, item.quantidade + 1)}
-                        className="p-1 bg-white rounded hover:bg-frida-orange/10"
-                      >
-                        <Plus size={16} />
-                      </button>
+                <div key={item.id} className="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-frida-beige/50 rounded-lg hover:bg-frida-beige/70 transition-colors">
+                  <img 
+                    src={item.imagem} 
+                    alt={item.nome} 
+                    className="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-lg flex-shrink-0" 
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-frida-dark mb-1 text-sm sm:text-base truncate">
+                      {item.nome}
+                    </h4>
+                    <p className="text-frida-red font-bold text-sm sm:text-base mb-2">
+                      {item.preco}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantidade - 1))}
+                          className="p-1 bg-white rounded-full hover:bg-frida-orange/20 transition-colors shadow-sm"
+                        >
+                          <Minus size={14} />
+                        </button>
+                        <span className="mx-2 font-bold text-sm w-8 text-center">
+                          {item.quantidade}
+                        </span>
+                        <button 
+                          onClick={() => onUpdateQuantity(item.id, item.quantidade + 1)}
+                          className="p-1 bg-white rounded-full hover:bg-frida-orange/20 transition-colors shadow-sm"
+                        >
+                          <Plus size={14} />
+                        </button>
+                      </div>
                       <button 
                         onClick={() => onRemoveItem(item.id)}
-                        className="ml-auto p-1 text-red-500 hover:bg-red-50 rounded"
+                        className="p-1 text-red-500 hover:bg-red-50 rounded-full transition-colors"
                       >
                         <X size={16} />
                       </button>
@@ -79,14 +97,14 @@ export default function Carrinho({ isOpen, onClose, items, onUpdateQuantity, onR
         </div>
 
         {items.length > 0 && (
-          <div className="p-6 border-t">
+          <div className="p-4 sm:p-6 border-t border-frida-beige bg-white">
             <div className="flex justify-between items-center mb-4">
-              <span className="font-bold text-lg">Total:</span>
-              <span className="font-bold text-xl text-frida-red">
+              <span className="font-bold text-base sm:text-lg">Total:</span>
+              <span className="font-bold text-lg sm:text-xl text-frida-red">
                 R$ {total.toFixed(2).replace('.', ',')}
               </span>
             </div>
-            <button className="w-full bg-frida-red text-white py-3 rounded-lg font-bold hover:bg-frida-orange transition-colors">
+            <button className="w-full bg-frida-red text-white py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
               Finalizar Compra
             </button>
           </div>
