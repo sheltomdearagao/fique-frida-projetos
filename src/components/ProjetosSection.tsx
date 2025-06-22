@@ -1,5 +1,7 @@
 
-import { FileText, Video, ShoppingCart } from "lucide-react";
+import { FileText, Video, ShoppingCart, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const projetos = [
   {
@@ -41,6 +43,24 @@ interface ProjetosSectionProps {
 }
 
 export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSectionProps) {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleComprarAgora = (projeto: any) => {
+    // Adiciona ao carrinho e vai direto para pagamento
+    onAdicionarAoCarrinho(projeto);
+    navigate('/pagamento');
+  };
+
+  const handleAdicionarCarrinho = (projeto: any) => {
+    onAdicionarAoCarrinho(projeto);
+    toast({
+      title: "Produto adicionado!",
+      description: `${projeto.nome} foi adicionado ao seu carrinho.`,
+      duration: 2000,
+    });
+  };
+
   return (
     <section id="projetos" className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4">
@@ -86,16 +106,27 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-4">
                   <span className="text-2xl font-bold text-frida-red">
                     {projeto.preco}
                   </span>
+                </div>
+
+                <div className="flex gap-3">
                   <button 
-                    onClick={() => onAdicionarAoCarrinho(projeto)}
-                    className="flex items-center gap-2 bg-frida-red text-white px-6 py-3 rounded-lg font-bold hover:bg-frida-orange transition-colors"
+                    onClick={() => handleComprarAgora(projeto)}
+                    className="flex-1 flex items-center justify-center gap-2 bg-frida-red text-white px-4 py-3 rounded-lg font-bold hover:bg-frida-orange transition-colors"
+                  >
+                    <ArrowRight size={18} />
+                    Comprar Agora
+                  </button>
+                  
+                  <button 
+                    onClick={() => handleAdicionarCarrinho(projeto)}
+                    className="flex items-center gap-2 bg-transparent border-2 border-frida-red text-frida-red px-4 py-3 rounded-lg font-bold hover:bg-frida-red hover:text-white transition-all duration-300 hover:scale-105"
                   >
                     <ShoppingCart size={18} />
-                    Comprar
+                    Adicionar
                   </button>
                 </div>
               </div>

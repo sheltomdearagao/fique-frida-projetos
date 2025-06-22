@@ -1,10 +1,11 @@
 
 import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const menu = [
   { name: "Início", href: "/" },
-  { name: "Projetos", href: "/projetos" },
+  { name: "Projetos", href: "/#projetos" },
   { name: "Contato", href: "/contato" }
 ];
 
@@ -22,14 +23,14 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <h1 className="font-display text-2xl md:text-3xl text-frida-red font-bold">
               Fique Frida
             </h1>
             <span className="hidden md:block ml-2 text-sm text-frida-dark/60">
               Projetos de Costura
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -46,9 +47,25 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
 
           {/* Actions */}
           <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
+              <Link 
+                to="/login"
+                className="text-frida-dark hover:text-frida-red transition-colors font-medium"
+              >
+                Entrar
+              </Link>
+              <span className="text-frida-dark/40">|</span>
+              <Link 
+                to="/cadastro"
+                className="bg-frida-red text-white px-4 py-2 rounded-lg hover:bg-frida-orange transition-colors font-medium"
+              >
+                Cadastrar
+              </Link>
+            </div>
+
             <button 
               onClick={onOpenLogin}
-              className="p-2 text-frida-dark hover:text-frida-red transition-colors"
+              className="md:hidden p-2 text-frida-dark hover:text-frida-red transition-colors"
             >
               <User size={20} />
             </button>
@@ -89,6 +106,22 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
                   {item.name}
                 </a>
               ))}
+              <div className="border-t border-frida-orange/20 pt-3 mt-3">
+                <Link 
+                  to="/login"
+                  className="block text-frida-dark hover:text-frida-red transition-colors font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Entrar
+                </Link>
+                <Link 
+                  to="/cadastro"
+                  className="block bg-frida-red text-white px-4 py-2 rounded-lg hover:bg-frida-orange transition-colors font-medium mt-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Cadastrar
+                </Link>
+              </div>
             </div>
           </nav>
         )}
