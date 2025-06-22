@@ -1,23 +1,17 @@
 
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import CriaçõesSection from "@/components/CriaçõesSection";
-import ComunidadeSection from "@/components/ComunidadeSection";
-import AulasTeaser from "@/components/AulasTeaser";
-import AboutMiliSection from "@/components/AboutMiliSection";
+import ProjetosSection from "@/components/ProjetosSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-frida-beige font-body">
+    <div className="min-h-screen bg-frida-beige">
       <Header />
-      <main className="flex flex-col gap-2">
+      <main>
         <HeroSection />
-        <CriaçõesSection />
-        <ComunidadeSection />
-        <AulasTeaser />
-        <AboutMiliSection />
-        <footer className="mt-12 py-10 text-center text-sm text-frida-dark/60 font-body">
-          © {new Date().getFullYear()} Fique Frida - Feito com 💖 no Brasil
+        <ProjetosSection />
+        <footer className="bg-frida-dark text-white py-8 text-center">
+          <p>© {new Date().getFullYear()} Fique Frida - Projetos de Costura de Salvador, BA</p>
         </footer>
       </main>
     </div>

@@ -1,94 +1,80 @@
 
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
-import floralFrame from "@/assets/floral-frame.svg";
 
 const menu = [
   { name: "Início", href: "/" },
-  { name: "Loja", href: "/loja" },
-  { name: "Aulas", href: "/aulas" },
-  { name: "Blog", href: "/blog" },
-  { name: "Sobre", href: "/sobre" }
+  { name: "Projetos", href: "/projetos" },
+  { name: "Como Funciona", href: "/como-funciona" },
+  { name: "Contato", href: "/contato" }
 ];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="relative z-30 bg-frida-beige shadow-lg">
-      <div className="w-full flex justify-between items-center py-4 px-4 md:px-8">
-        <div className="flex items-center gap-3">
-          <img 
-            src={floralFrame}
-            className="w-8 h-8 md:w-10 md:h-10 -mr-2"
-            alt=""
-            aria-hidden="true"
-          />
-          <span className="font-display text-2xl md:text-3xl text-frida-blue tracking-tight select-none" style={{ letterSpacing: "0.02em" }}>
-            Fique Frida
-          </span>
-        </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex gap-8">
-            {menu.map(m => (
-              <li key={m.name}>
-                <a
-                  href={m.href}
-                  className="relative text-lg font-body text-frida-dark hover:text-frida-orange transition-colors after:block after:absolute after:h-0.5 after:bg-frida-blue after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:w-full after:bottom-0"
-                  style={{ paddingBottom: "0.2em" }}
-                >
-                  {m.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          {/* Cart Button */}
-          <button className="p-3 rounded-full bg-frida-blue hover:bg-frida-red transition-colors shadow relative" aria-label="Carrinho de compras">
-            <ShoppingCart size={20} className="text-frida-beige" />
-            <span className="absolute -top-2 -right-2 bg-frida-yellow text-frida-dark text-xs font-bold rounded-full px-2 shadow min-w-[1.4em] h-6 flex items-center justify-center">
-              0
+    <header className="bg-white shadow-md border-b-2 border-frida-orange sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="font-display text-2xl md:text-3xl text-frida-red font-bold">
+              Fique Frida
+            </h1>
+            <span className="hidden md:block ml-2 text-sm text-frida-dark/60">
+              Projetos de Costura
             </span>
-          </button>
+          </div>
 
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden p-2 rounded-lg bg-frida-orange hover:bg-frida-red transition-colors"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Menu"
-          >
-            {isMenuOpen ? <X size={24} className="text-white" /> : <Menu size={24} className="text-white" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-frida-beige border-t-2 border-frida-orange shadow-lg">
-          <nav className="py-4">
-            <ul className="flex flex-col">
-              {menu.map(m => (
-                <li key={m.name}>
-                  <a
-                    href={m.href}
-                    className="block px-6 py-3 text-lg font-body text-frida-dark hover:bg-frida-orange hover:text-white transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {m.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {menu.map(item => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-frida-dark hover:text-frida-red transition-colors font-medium"
+              >
+                {item.name}
+              </a>
+            ))}
           </nav>
-        </div>
-      )}
 
-      <div className="hidden md:block">
-        <img src={floralFrame} alt="" className="w-full h-7 object-cover opacity-80" aria-hidden="true"/>
+          {/* Cart and Mobile Menu */}
+          <div className="flex items-center gap-3">
+            <button className="relative p-2 bg-frida-red text-white rounded-lg hover:bg-frida-orange transition-colors">
+              <ShoppingCart size={20} />
+              <span className="absolute -top-2 -right-2 bg-frida-yellow text-frida-dark text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                0
+              </span>
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden p-2 text-frida-dark"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <nav className="md:hidden mt-4 pb-4 border-t border-frida-orange/20">
+            <div className="flex flex-col space-y-3 pt-4">
+              {menu.map(item => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-frida-dark hover:text-frida-red transition-colors font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   );
