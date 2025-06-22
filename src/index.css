@@ -8,9 +8,52 @@
   body {
     @apply font-body bg-frida-beige text-frida-dark;
     background-image: none;
+    scroll-behavior: smooth;
   }
   h1, h2, h3, h4 {
     @apply font-display;
     letter-spacing: 0.02em;
+  }
+}
+
+/* Utilitários personalizados */
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  .border-3 {
+    border-width: 3px;
+  }
+
+  /* Animações suaves */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Responsividade para textos */
+@media (max-width: 640px) {
+  .font-display {
+    line-height: 1.2;
   }
 }
