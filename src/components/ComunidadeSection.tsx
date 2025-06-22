@@ -27,7 +27,7 @@ export default function ComunidadeSection() {
                 Entre para o grupo exclusivo e participe das novidades, sorteios e bastidores!
               </p>
               <a
-                href="https://chat.whatsapp.com/invite/EXEMPLO" 
+                href="https://wa.me/5571991087886?text=Olá! Gostaria de participar do grupo VIP." 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full px-6 py-3 rounded-full font-body font-bold text-white bg-frida-green hover:bg-frida-blue transition-all duration-300 hover:scale-105 shadow-lg"
@@ -46,7 +46,7 @@ export default function ComunidadeSection() {
                 Receba conteúdos fresquinhos direto no seu WhatsApp ou E-mail.
               </p>
               <a
-                href="https://forms.gle/EXEMPLO" 
+                href="mailto:fiquefrida@gmail.com?subject=Quero receber a newsletter" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full px-6 py-3 rounded-full font-body font-bold text-white bg-frida-red hover:bg-frida-orange transition-all duration-300 hover:scale-105 shadow-lg"
