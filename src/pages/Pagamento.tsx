@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import Header from "@/components/Header";
-import { CreditCard, Pix, Mail } from "lucide-react";
+import { CreditCard, QrCode, Mail } from "lucide-react";
 
 export default function Pagamento() {
   const [metodoPagamento, setMetodoPagamento] = useState('pix');
@@ -68,7 +68,7 @@ export default function Pagamento() {
                   onChange={(e) => setMetodoPagamento(e.target.value)}
                   className="mr-3"
                 />
-                <Pix className="mr-3 text-frida-blue" size={24} />
+                <QrCode className="mr-3 text-frida-blue" size={24} />
                 <span className="font-medium">PIX (Aprovação imediata)</span>
               </label>
               

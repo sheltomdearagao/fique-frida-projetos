@@ -36,7 +36,11 @@ const projetos = [
   }
 ];
 
-export default function ProjetosSection() {
+interface ProjetosSectionProps {
+  onAdicionarAoCarrinho: (projeto: any) => void;
+}
+
+export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSectionProps) {
   return (
     <section id="projetos" className="py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4">
@@ -86,7 +90,10 @@ export default function ProjetosSection() {
                   <span className="text-2xl font-bold text-frida-red">
                     {projeto.preco}
                   </span>
-                  <button className="flex items-center gap-2 bg-frida-red text-white px-6 py-3 rounded-lg font-bold hover:bg-frida-orange transition-colors">
+                  <button 
+                    onClick={() => onAdicionarAoCarrinho(projeto)}
+                    className="flex items-center gap-2 bg-frida-red text-white px-6 py-3 rounded-lg font-bold hover:bg-frida-orange transition-colors"
+                  >
                     <ShoppingCart size={18} />
                     Comprar
                   </button>
