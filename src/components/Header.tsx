@@ -1,15 +1,20 @@
 
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 
 const menu = [
   { name: "Início", href: "/" },
   { name: "Projetos", href: "/projetos" },
-  { name: "Como Funciona", href: "/como-funciona" },
   { name: "Contato", href: "/contato" }
 ];
 
-export default function Header() {
+interface HeaderProps {
+  onOpenCarrinho?: () => void;
+  onOpenLogin?: () => void;
+  carrinhoCount?: number;
+}
+
+export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -39,13 +44,25 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Cart and Mobile Menu */}
+          {/* Actions */}
           <div className="flex items-center gap-3">
-            <button className="relative p-2 bg-frida-red text-white rounded-lg hover:bg-frida-orange transition-colors">
+            <button 
+              onClick={onOpenLogin}
+              className="p-2 text-frida-dark hover:text-frida-red transition-colors"
+            >
+              <User size={20} />
+            </button>
+
+            <button 
+              onClick={onOpenCarrinho}
+              className="relative p-2 bg-frida-red text-white rounded-lg hover:bg-frida-orange transition-colors"
+            >
               <ShoppingCart size={20} />
-              <span className="absolute -top-2 -right-2 bg-frida-yellow text-frida-dark text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
+              {carrinhoCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-frida-yellow text-frida-dark text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {carrinhoCount}
+                </span>
+              )}
             </button>
 
             {/* Mobile Menu Button */}
