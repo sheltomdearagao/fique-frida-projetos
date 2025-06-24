@@ -17,14 +17,23 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
     navigate(`/produto/${produto.id}`);
   };
 
-  const handleAdicionarCarrinho = (e: React.MouseEvent, projeto: any) => {
+  const handleAdicionarCarrinho = (e: React.MouseEvent, produto: any) => {
     e.stopPropagation(); // Evita que o clique no card seja acionado
     
     if (onAdicionarAoCarrinho) {
-      onAdicionarAoCarrinho(projeto);
+      // Converter o produto para o formato esperado pelo carrinho
+      const projetoFormatado = {
+        id: produto.id,
+        nome: produto.name,
+        preco: `R$ ${produto.price?.toFixed(2).replace('.', ',')}`,
+        precoNumerico: produto.price || 0,
+        imagem: produto.image_url || ''
+      };
+      
+      onAdicionarAoCarrinho(projetoFormatado);
       toast({
         title: "✅ Produto adicionado!",
-        description: `${projeto.name} foi adicionado ao seu carrinho.`,
+        description: `${produto.name} foi adicionado ao seu carrinho.`,
         duration: 3000,
         className: "bg-white border-2 border-frida-green shadow-lg",
       });
