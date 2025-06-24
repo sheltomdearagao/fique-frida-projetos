@@ -19,13 +19,6 @@ export default function HeroSection() {
             <br className="hidden md:block" />
             Mochilas, pochetes, necessaires e shoulder bags direto de Salvador, Bahia.
           </p>
-          <a 
-            href="#projetos"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-frida-red to-frida-coral text-white px-10 py-5 rounded-full text-lg font-bold hover:from-frida-coral hover:to-frida-orange transition-all duration-300 shadow-frida-warm hover:shadow-xl hover:scale-105"
-          >
-            <Play size={22} />
-            Ver Projetos Disponíveis
-          </a>
         </div>
 
         {/* Preview de Projeto */}

@@ -1,6 +1,9 @@
 
 import { useState } from "react";
 import { ShoppingCart, Plus, Minus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface CarrinhoItem {
   id: string;
@@ -20,7 +23,40 @@ interface CarrinhoProps {
 }
 
 export default function Carrinho({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem }: CarrinhoProps) {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const { toast } = useToast();
   const total = items.reduce((sum, item) => sum + (item.precoNumerico * item.quantidade), 0);
+
+  const handleFinalizarCompra = () => {
+    console.log('Finalizando compra do carrinho:', items);
+    
+    if (!isAuthenticated) {
+      toast({
+        title: "Login necessário",
+        description: "Faça login para finalizar sua compra.",
+        duration: 3000,
+        className: "bg-white border-2 border-frida-yellow shadow-lg",
+      });
+      onClose();
+      navigate('/login');
+      return;
+    }
+
+    if (items.length === 0) {
+      toast({
+        title: "Carrinho vazio",
+        description: "Adicione produtos ao carrinho antes de finalizar a compra.",
+        duration: 3000,
+        className: "bg-white border-2 border-frida-yellow shadow-lg",
+      });
+      return;
+    }
+    
+    // Redirecionar para página de pagamento com dados do carrinho
+    onClose();
+    navigate('/pagamento', { state: { carrinho: items, total } });
+  };
 
   if (!isOpen) return null;
 
@@ -104,7 +140,10 @@ export default function Carrinho({ isOpen, onClose, items, onUpdateQuantity, onR
                 R$ {total.toFixed(2).replace('.', ',')}
               </span>
             </div>
-            <button className="w-full bg-frida-red text-white py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg">
+            <button 
+              onClick={handleFinalizarCompra}
+              className="w-full bg-frida-red text-white py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg"
+            >
               Finalizar Compra
             </button>
           </div>
