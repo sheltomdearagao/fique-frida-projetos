@@ -11,10 +11,17 @@ export const usePurchases = () => {
     mutationFn: async ({ productId }: { productId: string }) => {
       console.log('Criando compra para produto:', productId);
       
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('Usuário não autenticado');
+      }
+
       const { data, error } = await supabase
         .from('user_purchases')
         .insert({
-          product_id: productId
+          product_id: productId,
+          user_id: user.id
         })
         .select()
         .single();
