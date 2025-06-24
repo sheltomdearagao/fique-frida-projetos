@@ -13,6 +13,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   const { toast } = useToast();
   const { data: products, isLoading, error } = useProducts();
 
+  // Debug: verificar dados dos produtos
+  console.log('Produtos carregados:', products);
+  products?.forEach(produto => {
+    console.log(`Produto: ${produto.name}`);
+    console.log(`URL da imagem: ${produto.image_url}`);
+  });
+
   const handleVerDetalhes = (produto: any) => {
     navigate(`/produto/${produto.id}`);
   };
@@ -89,6 +96,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   src={produto.image_url || ''}
                   alt={produto.name}
                   className="w-full h-40 sm:h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    console.error(`Erro ao carregar imagem para ${produto.name}:`, produto.image_url);
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
+                  }}
+                  onLoad={() => {
+                    console.log(`Imagem carregada com sucesso para ${produto.name}`);
+                  }}
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
               </div>

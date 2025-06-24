@@ -25,19 +25,15 @@ export default function HeroSection() {
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-frida-warm border border-frida-warm/20 overflow-hidden max-w-5xl mx-auto">
           <div className="md:flex">
             <div className="md:w-1/2 relative flex items-center justify-center p-8">
-              {/* Foto com moldura redonda */}
+              {/* Foto circular sem moldura rosa */}
               <div className="relative">
-                {/* Círculo rosa exterior */}
-                <div className="w-64 h-64 rounded-full bg-gradient-to-br from-pink-300 to-pink-400 p-3 shadow-lg">
-                  {/* Foto circular */}
-                  <img 
-                    src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png"
-                    alt="Mili - Criadora do Fique Frida"
-                    className="w-full h-full rounded-full object-cover border-4 border-white shadow-inner"
-                  />
-                </div>
-                {/* Efeito de brilho */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/20 to-transparent pointer-events-none"></div>
+                <img 
+                  src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png"
+                  alt="Mili - Criadora do Fique Frida"
+                  className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg"
+                />
+                {/* Efeito de brilho sutil */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
               </div>
             </div>
             <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
