@@ -29,7 +29,6 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
       return;
     }
     
-    // Redirecionar para página de pagamento com dados do produto
     navigate('/pagamento', { state: { produto } });
   };
 
@@ -64,13 +63,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
     );
   }
 
-  // Mapear os produtos do Supabase para o formato esperado
+  // Mapear os produtos para o formato esperado pelo componente
   const projetos = products?.map(product => ({
     id: product.id,
     nome: product.name,
     preco: `R$ ${product.price?.toFixed(2).replace('.', ',')}`,
     precoNumerico: product.price || 0,
-    imagem: getImageForProduct(product.name),
+    imagem: product.image_url || getDefaultImageForProduct(product.name),
     descricao: product.description || '',
     nivel: getNivelForProduct(product.name)
   })) || [];
@@ -153,14 +152,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   );
 }
 
-// Funções auxiliares para mapear imagens e níveis
-function getImageForProduct(name: string): string {
+// Funções auxiliares para compatibilidade
+function getDefaultImageForProduct(name: string): string {
   const imageMap: { [key: string]: string } = {
     'Mochila Urban Style': "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80",
     'Pochete Vintage': "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=400&q=80",
     'Necessaire Floral': "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=400&q=80",
-    'Shoulder Bag Elegante': "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=400&q=80",
-    'Shoulder Bag Moderna': "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=400&q=80"
+    'Shoulder Bag Elegante': "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=400&q=80"
   };
   
   return imageMap[name] || "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=400&q=80";
@@ -171,8 +169,7 @@ function getNivelForProduct(name: string): string {
     'Mochila Urban Style': 'Intermediário',
     'Pochete Vintage': 'Iniciante',
     'Necessaire Floral': 'Iniciante',
-    'Shoulder Bag Elegante': 'Avançado',
-    'Shoulder Bag Moderna': 'Intermediário'
+    'Shoulder Bag Elegante': 'Avançado'
   };
   
   return nivelMap[name] || 'Intermediário';
