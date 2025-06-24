@@ -1,18 +1,38 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const { login, isLoading } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implementar login com Supabase
-    console.log('Login', { email, senha });
+    
+    const success = await login(email, senha);
+    
+    if (success) {
+      toast({
+        title: "✅ Login realizado com sucesso!",
+        description: "Bem-vindo(a) ao Fique Frida!",
+        className: "bg-white border-2 border-frida-green shadow-lg",
+      });
+      navigate('/dashboard');
+    } else {
+      toast({
+        title: "❌ Erro no login",
+        description: "Email ou senha incorretos. Tente novamente.",
+        className: "bg-white border-2 border-red-500 shadow-lg",
+      });
+    }
   };
 
   return (
@@ -42,6 +62,7 @@ export default function LoginPage() {
                 className="w-full p-3 border-2 border-frida-beige rounded-lg focus:border-frida-red outline-none transition-colors"
                 placeholder="seu.email@gmail.com"
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -58,11 +79,13 @@ export default function LoginPage() {
                   className="w-full p-3 border-2 border-frida-beige rounded-lg focus:border-frida-red outline-none transition-colors pr-10"
                   placeholder="Sua senha"
                   required
+                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setMostrarSenha(!mostrarSenha)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-frida-dark/60"
+                  disabled={isLoading}
                 >
                   {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -71,7 +94,7 @@ export default function LoginPage() {
 
             <div className="flex justify-between items-center">
               <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
+                <input type="checkbox" className="mr-2" disabled={isLoading} />
                 <span className="text-sm text-frida-dark/70">Lembrar de mim</span>
               </label>
               <Link to="/recuperar-senha" className="text-sm text-frida-red hover:underline">
@@ -81,9 +104,10 @@ export default function LoginPage() {
 
             <button 
               type="submit"
-              className="w-full bg-frida-red text-white py-3 rounded-lg font-bold text-lg hover:bg-frida-orange transition-colors"
+              disabled={isLoading}
+              className="w-full bg-frida-red text-white py-3 rounded-lg font-bold text-lg hover:bg-frida-orange transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Entrar
+              {isLoading ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
