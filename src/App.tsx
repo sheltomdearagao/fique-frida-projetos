@@ -12,6 +12,8 @@ import Cadastro from "./pages/Cadastro";
 import LoginPage from "./pages/LoginPage";
 import Contato from "./pages/Contato";
 import Dashboard from "./pages/Dashboard";
+import TermosUso from "./pages/TermosUso";
+import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 
@@ -32,6 +34,8 @@ const App = () => (
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contato" element={<Contato />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/termos-uso" element={<TermosUso />} />
+            <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <WhatsAppFloat />
