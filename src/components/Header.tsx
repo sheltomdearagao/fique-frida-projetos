@@ -6,7 +6,6 @@ import { useAuth } from "@/contexts/AuthContext";
 
 const menu = [
   { name: "Início", href: "/" },
-  { name: "Projetos", href: "/#projetos" },
   { name: "Contato", href: "/contato" }
 ];
 
@@ -43,15 +42,24 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {menu.map(item => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="text-frida-brown hover:text-frida-teal transition-colors font-medium text-sm lg:text-base relative group"
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-frida-teal transition-all group-hover:w-full"></span>
-              </a>
+              </Link>
             ))}
+            {isAuthenticated && (
+              <Link
+                to="/meus-produtos"
+                className="text-frida-brown hover:text-frida-teal transition-colors font-medium text-sm lg:text-base relative group"
+              >
+                Meus Produtos
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-frida-teal transition-all group-hover:w-full"></span>
+              </Link>
+            )}
           </nav>
 
           {/* Actions */}
@@ -59,13 +67,9 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
             <div className="hidden md:flex items-center gap-3">
               {isAuthenticated ? (
                 <>
-                  <Link 
-                    to="/dashboard"
-                    className="text-frida-brown hover:text-frida-teal transition-colors font-medium text-sm lg:text-base flex items-center gap-2"
-                  >
-                    <User size={16} />
+                  <span className="text-frida-brown text-sm lg:text-base">
                     Olá, {user?.name}
-                  </Link>
+                  </span>
                   <button 
                     onClick={handleLogout}
                     className="text-frida-brown hover:text-frida-red transition-colors font-medium text-sm lg:text-base flex items-center gap-2"
@@ -131,26 +135,30 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
           <nav className="md:hidden mt-4 pb-4 border-t border-frida-warm/30">
             <div className="flex flex-col space-y-3 pt-4">
               {menu.map(item => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="text-frida-brown hover:text-frida-teal transition-colors font-medium py-2 text-base"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
+              {isAuthenticated && (
+                <Link
+                  to="/meus-produtos"
+                  className="text-frida-brown hover:text-frida-teal transition-colors font-medium py-2 text-base"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Meus Produtos
+                </Link>
+              )}
               <div className="border-t border-frida-warm/30 pt-3 mt-3">
                 {isAuthenticated ? (
                   <>
-                    <Link 
-                      to="/dashboard"
-                      className="block text-frida-brown hover:text-frida-teal transition-colors font-medium py-2 text-base flex items-center gap-2"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <User size={16} />
-                      Dashboard
-                    </Link>
+                    <span className="block text-frida-brown py-2 text-base">
+                      Olá, {user?.name}
+                    </span>
                     <button 
                       onClick={() => {
                         handleLogout();

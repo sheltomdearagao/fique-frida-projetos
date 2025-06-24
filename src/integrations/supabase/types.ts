@@ -14,24 +14,33 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          image_url: string | null
           name: string
+          pdf_url: string | null
           price: number | null
+          youtube_unlisted_url: string | null
           youtube_video_id: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
+          image_url?: string | null
           name: string
+          pdf_url?: string | null
           price?: number | null
+          youtube_unlisted_url?: string | null
           youtube_video_id: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
+          image_url?: string | null
           name?: string
+          pdf_url?: string | null
           price?: number | null
+          youtube_unlisted_url?: string | null
           youtube_video_id?: string
         }
         Relationships: []
@@ -65,12 +74,47 @@ export type Database = {
           },
         ]
       }
+      user_purchases: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_purchases_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_product_content: {
+        Args: { product_id_input: string }
+        Returns: {
+          youtube_unlisted_url: string
+          pdf_url: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

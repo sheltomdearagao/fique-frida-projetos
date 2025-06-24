@@ -8,25 +8,30 @@ export const usePurchases = () => {
   const { toast } = useToast();
 
   const createPurchase = useMutation({
-    mutationFn: async ({ productId, userEmail }: { productId: string; userEmail: string }) => {
-      console.log('Simulando criação de compra para produto:', productId, 'Email:', userEmail);
+    mutationFn: async ({ productId }: { productId: string }) => {
+      console.log('Criando compra para produto:', productId);
       
-      // Como a tabela user_purchases ainda não existe, vamos simular uma compra bem-sucedida
-      const mockPurchase = {
-        id: crypto.randomUUID(),
-        product_id: productId,
-        user_id: '00000000-0000-0000-0000-000000000000',
-        created_at: new Date().toISOString()
-      };
+      const { data, error } = await supabase
+        .from('user_purchases')
+        .insert({
+          product_id: productId
+        })
+        .select()
+        .single();
 
-      console.log('Compra simulada criada:', mockPurchase);
-      return mockPurchase;
+      if (error) {
+        console.error('Erro ao criar compra:', error);
+        throw error;
+      }
+
+      console.log('Compra criada:', data);
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-purchases'] });
       toast({
         title: "✅ Compra realizada com sucesso!",
-        description: "Você receberá os moldes por email e o acesso à aula será liberado em breve.",
+        description: "Você agora tem acesso ao conteúdo deste produto.",
         duration: 5000,
         className: "bg-white border-2 border-frida-green shadow-lg",
       });
