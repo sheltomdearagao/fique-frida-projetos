@@ -3,7 +3,7 @@ import { FileText, Video, ShoppingCart, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useProducts } from "@/hooks/useProducts";
-import { usePurchases } from "@/hooks/usePurchases";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ProjetosSectionProps {
   onAdicionarAoCarrinho: (projeto: any) => void;
@@ -13,29 +13,31 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   const navigate = useNavigate();
   const { toast } = useToast();
   const { data: products, isLoading, error } = useProducts();
-  const { createPurchase } = usePurchases();
+  const { isAuthenticated } = useAuth();
 
-  const handleComprarAgora = async (produto: any) => {
+  const handleComprarAgora = (produto: any) => {
     console.log('Iniciando compra do produto:', produto);
     
-    try {
-      await createPurchase.mutateAsync({
-        productId: produto.id,
-        userEmail: 'teste@fiquefrida.com' // Email de teste
+    if (!isAuthenticated) {
+      toast({
+        title: "Login necessário",
+        description: "Faça login para finalizar sua compra.",
+        duration: 3000,
+        className: "bg-white border-2 border-frida-yellow shadow-lg",
       });
-      
-      // Redirecionar para página de sucesso após compra
-      navigate('/sucesso');
-    } catch (error) {
-      console.error('Erro ao processar compra:', error);
+      navigate('/login');
+      return;
     }
+    
+    // Redirecionar para página de pagamento com dados do produto
+    navigate('/pagamento', { state: { produto } });
   };
 
   const handleAdicionarCarrinho = (projeto: any) => {
     onAdicionarAoCarrinho(projeto);
     toast({
       title: "✅ Produto adicionado!",
-      description: `${projeto.name} foi adicionado ao seu carrinho.`,
+      description: `${projeto.nome} foi adicionado ao seu carrinho.`,
       duration: 3000,
       className: "bg-white border-2 border-frida-green shadow-lg",
     });
@@ -127,11 +129,10 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <button 
                     onClick={() => handleComprarAgora(projeto)}
-                    disabled={createPurchase.isPending}
-                    className="flex-1 flex items-center justify-center gap-2 bg-frida-red text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-orange transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 flex items-center justify-center gap-2 bg-frida-red text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-orange transition-all duration-300 hover:scale-105 active:scale-95"
                   >
                     <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
-                    {createPurchase.isPending ? 'Processando...' : 'Comprar Agora'}
+                    Comprar Agora
                   </button>
                   
                   <button 

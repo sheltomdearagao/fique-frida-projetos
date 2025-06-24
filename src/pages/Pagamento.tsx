@@ -3,12 +3,12 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import { CreditCard, QrCode, Mail, User, Phone } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { usePurchases } from "@/hooks/usePurchases";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Pagamento() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { createPurchase } = usePurchases();
+  const { toast } = useToast();
   
   const [metodoPagamento, setMetodoPagamento] = useState('pix');
   const [dadosFormulario, setDadosFormulario] = useState({
@@ -31,32 +31,49 @@ export default function Pagamento() {
     e.preventDefault();
     
     if (!produto) {
-      alert('Produto não encontrado. Volte e selecione um produto.');
+      toast({
+        title: "❌ Produto não encontrado",
+        description: "Volte e selecione um produto para continuar.",
+        duration: 5000,
+        className: "bg-white border-2 border-red-500 shadow-lg",
+      });
       return;
     }
 
     if (!dadosFormulario.email.includes('@gmail.com')) {
-      alert('Por favor, use um endereço Gmail válido para acessar as aulas.');
+      toast({
+        title: "⚠️ Gmail necessário",
+        description: "Use um endereço Gmail válido para acessar as aulas.",
+        duration: 5000,
+        className: "bg-white border-2 border-frida-yellow shadow-lg",
+      });
       return;
     }
 
-    try {
-      await createPurchase.mutateAsync({
-        productId: produto.id,
-        userEmail: dadosFormulario.email
+    // Simular processamento de pagamento
+    toast({
+      title: "🔄 Processando pagamento...",
+      description: "Aguarde enquanto processamos seu pagamento.",
+      duration: 2000,
+      className: "bg-white border-2 border-frida-blue shadow-lg",
+    });
+
+    // Simular delay de processamento
+    setTimeout(() => {
+      toast({
+        title: "✅ Pagamento aprovado!",
+        description: "Você receberá os moldes por email em breve.",
+        duration: 5000,
+        className: "bg-white border-2 border-frida-green shadow-lg",
       });
-      
-      // Redirecionar para página de sucesso
       navigate('/sucesso');
-    } catch (error) {
-      console.error('Erro ao processar pagamento:', error);
-    }
+    }, 2000);
   };
 
   return (
     <div className="min-h-screen bg-frida-beige">
       <Header />
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 md:py-8 pt-24">
         <h1 className="font-display text-2xl sm:text-3xl text-frida-red mb-6 md:mb-8 text-center font-bold">
           Finalizar Pagamento
         </h1>
@@ -71,17 +88,17 @@ export default function Pagamento() {
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start pb-4 border-b border-frida-beige">
                 <div className="mb-2 sm:mb-0">
                   <h3 className="font-bold text-sm sm:text-base">
-                    {produto?.nome || 'Shoulder Bag Moderna'}
+                    {produto?.nome || 'Produto não encontrado'}
                   </h3>
                   <p className="text-xs sm:text-sm text-frida-dark/70">Moldes PDF + Aula YouTube</p>
                 </div>
                 <span className="font-bold text-frida-red text-sm sm:text-base">
-                  {produto?.preco || 'R$ 49,90'}
+                  {produto?.preco || 'R$ 0,00'}
                 </span>
               </div>
               <div className="flex justify-between items-center font-bold text-base sm:text-lg pt-2">
                 <span>Total:</span>
-                <span className="text-frida-red">{produto?.preco || 'R$ 49,90'}</span>
+                <span className="text-frida-red">{produto?.preco || 'R$ 0,00'}</span>
               </div>
             </div>
           </div>
@@ -188,12 +205,9 @@ export default function Pagamento() {
 
               <button 
                 type="submit"
-                disabled={createPurchase.isPending}
-                className="w-full bg-frida-red text-white py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-lg hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-frida-red text-white py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-lg hover:bg-frida-orange transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg"
               >
-                {createPurchase.isPending 
-                  ? 'Processando...' 
-                  : `Finalizar Pagamento - ${produto?.preco || 'R$ 49,90'}`}
+                Finalizar Pagamento - {produto?.preco || 'R$ 0,00'}
               </button>
             </form>
           </div>
