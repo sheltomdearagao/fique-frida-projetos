@@ -9,62 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      products: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          name: string
-          price: number | null
-          youtube_video_id: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          name: string
-          price?: number | null
-          youtube_video_id: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          name?: string
-          price?: number | null
-          youtube_video_id?: string
-        }
-        Relationships: []
-      }
-      purchases: {
-        Row: {
-          created_at: string
-          id: string
-          product_id: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          product_id: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          product_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "purchases_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
