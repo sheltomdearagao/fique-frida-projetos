@@ -14,18 +14,11 @@ export const useUserPurchases = () => {
     queryKey: ['user-purchases'],
     queryFn: async () => {
       console.log('Carregando compras do usuário...');
-      const { data, error } = await supabase
-        .from('user_purchases')
-        .select('*')
-        .order('created_at', { ascending: false });
       
-      if (error) {
-        console.error('Erro ao carregar compras:', error);
-        throw error;
-      }
-      
-      console.log('Compras carregadas:', data);
-      return data as UserPurchase[];
+      // Como a tabela user_purchases ainda não existe, vamos retornar um array vazio
+      // Isso evitará erros enquanto a estrutura não estiver completa
+      console.log('Tabela user_purchases ainda não disponível - retornando array vazio');
+      return [] as UserPurchase[];
     },
     staleTime: 5 * 60 * 1000,
   });
