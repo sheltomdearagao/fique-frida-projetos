@@ -52,18 +52,25 @@ export const useProducts = () => {
     queryKey: ['products'],
     queryFn: async () => {
       try {
+        console.log('Tentando carregar produtos do Supabase...');
         const { data, error } = await supabase
           .from('products')
           .select('*')
           .order('created_at', { ascending: true });
         
-        if (error) throw error;
+        if (error) {
+          console.warn('Erro no Supabase:', error);
+          throw error;
+        }
+        
+        console.log('Produtos carregados do Supabase:', data);
         return data as Product[];
       } catch (error) {
         console.warn('Falha ao conectar com Supabase, usando dados mockados:', error);
-        // Retorna dados mockados como fallback
         return mockProducts;
       }
     },
+    retry: false, // Não tentar novamente para evitar múltiplas requisições
+    staleTime: 5 * 60 * 1000, // Cache por 5 minutos
   });
 };

@@ -11,6 +11,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
+      console.log('Usuário não autenticado, redirecionando para login');
       navigate('/login');
     }
   }, [isAuthenticated, isLoading, navigate]);

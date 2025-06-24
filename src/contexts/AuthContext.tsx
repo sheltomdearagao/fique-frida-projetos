@@ -39,7 +39,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const savedUser = localStorage.getItem('fiquefrida_user');
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+        console.log('Usuário carregado do localStorage:', userData);
       } catch (error) {
         console.error('Erro ao carregar usuário salvo:', error);
         localStorage.removeItem('fiquefrida_user');
@@ -50,6 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
+    console.log('Tentando fazer login com:', email);
     
     // Simulação de login (em produção, integrar com Supabase)
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -63,16 +66,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       setUser(newUser);
       localStorage.setItem('fiquefrida_user', JSON.stringify(newUser));
+      console.log('Login realizado com sucesso:', newUser);
       setIsLoading(false);
       return true;
     }
     
+    console.log('Falha no login - credenciais inválidas');
     setIsLoading(false);
     return false;
   };
 
   const register = async (name: string, email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
+    console.log('Tentando registrar usuário:', { name, email });
     
     // Simulação de cadastro
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -86,15 +92,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       setUser(newUser);
       localStorage.setItem('fiquefrida_user', JSON.stringify(newUser));
+      console.log('Registro realizado com sucesso:', newUser);
       setIsLoading(false);
       return true;
     }
     
+    console.log('Falha no registro - dados inválidos');
     setIsLoading(false);
     return false;
   };
 
   const logout = () => {
+    console.log('Fazendo logout...');
     setUser(null);
     localStorage.removeItem('fiquefrida_user');
   };
