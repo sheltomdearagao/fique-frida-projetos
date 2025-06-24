@@ -17,6 +17,10 @@ export default function Produto() {
 
   const produto = products?.find(p => p.id === id);
 
+  const getPromotionalPrice = (price: number) => {
+    return (price * 0.83).toFixed(2); // 17% de desconto no PIX (29,90 -> 24,90)
+  };
+
   const handleComprar = async () => {
     if (!isAuthenticated) {
       toast({
@@ -106,9 +110,25 @@ export default function Produto() {
                 </p>
 
                 <div className="mb-6">
-                  <span className="text-3xl font-bold text-frida-red">
-                    R$ {produto.price?.toFixed(2).replace('.', ',')}
-                  </span>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl md:text-3xl font-bold text-frida-green">
+                      R$ {getPromotionalPrice(produto.price || 0).replace('.', ',')}
+                    </span>
+                    <span className="bg-frida-green text-white px-3 py-1 rounded-full text-sm font-bold">
+                      PIX
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-frida-dark/60">
+                    <span className="line-through">
+                      R$ {produto.price?.toFixed(2).replace('.', ',')}
+                    </span>
+                    <span className="text-sm">
+                      em outros meios de pagamento
+                    </span>
+                  </div>
+                  <div className="mt-2 text-sm text-frida-green font-medium">
+                    💰 Economize R$ {((produto.price || 0) - parseFloat(getPromotionalPrice(produto.price || 0))).toFixed(2).replace('.', ',')} pagando no PIX!
+                  </div>
                 </div>
 
                 <div className="space-y-4 mb-8">

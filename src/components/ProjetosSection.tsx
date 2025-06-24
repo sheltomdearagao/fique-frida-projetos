@@ -31,6 +31,10 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
     }
   };
 
+  const getPromotionalPrice = (price: number) => {
+    return (price * 0.83).toFixed(2); // 17% de desconto no PIX (29,90 -> 24,90)
+  };
+
   if (isLoading) {
     return (
       <section id="projetos" className="py-12 md:py-16 bg-white">
@@ -99,10 +103,23 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mb-4 sm:mb-5">
-                  <span className="text-xl sm:text-2xl font-bold text-frida-red">
-                    R$ {produto.price?.toFixed(2).replace('.', ',')}
-                  </span>
+                <div className="mb-4 sm:mb-5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-lg sm:text-xl font-bold text-frida-green">
+                      R$ {getPromotionalPrice(produto.price || 0).replace('.', ',')}
+                    </span>
+                    <span className="text-xs sm:text-sm bg-frida-green text-white px-2 py-1 rounded font-bold">
+                      PIX
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-frida-dark/60 line-through">
+                      R$ {produto.price?.toFixed(2).replace('.', ',')}
+                    </span>
+                    <span className="text-xs text-frida-dark/50">
+                      outros meios
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
