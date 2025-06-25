@@ -32,7 +32,7 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
           {/* Logo */}
           <Link to="/" className="flex items-center group">
             <img 
-              src="/lovable-uploads/0164f03c-cbd0-4f10-ad69-e33bcb257147.png" 
+              src="/lovable-uploads/ddf0d8c5-1735-4bcc-94f6-d3fed41cf6af.png" 
               alt="Fique Frida Logo" 
               className="h-10 w-auto sm:h-12 md:h-14 transition-transform group-hover:scale-105"
             />
