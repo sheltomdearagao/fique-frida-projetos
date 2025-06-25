@@ -1,38 +1,27 @@
-
 import { useState } from "react";
 import HeaderLogo from "./header/HeaderLogo";
 import DesktopNavigation from "./header/DesktopNavigation";
 import MobileNavigation from "./header/MobileNavigation";
 import HeaderActions from "./header/HeaderActions";
-
 interface HeaderProps {
   onOpenCarrinho?: () => void;
   onOpenLogin?: () => void;
   carrinhoCount?: number;
 }
-
-export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 }: HeaderProps) {
+export default function Header({
+  onOpenCarrinho,
+  onOpenLogin,
+  carrinhoCount = 0
+}: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  return (
-    <header className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200 fixed top-0 left-0 right-0 z-50 w-full">
-      <div className="max-w-6xl mx-auto px-4 py-3 sm:py-4">
+  return <header className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200 fixed top-0 left-0 right-0 z-50 w-full">
+      <div className="max-w-6xl mx-auto px-4 py-3 sm:py-0">
         <div className="flex justify-between items-center">
           <HeaderLogo />
           <DesktopNavigation />
-          <HeaderActions 
-            onOpenCarrinho={onOpenCarrinho}
-            onOpenLogin={onOpenLogin}
-            carrinhoCount={carrinhoCount}
-            isMenuOpen={isMenuOpen}
-            onToggleMenu={() => setIsMenuOpen(!isMenuOpen)}
-          />
+          <HeaderActions onOpenCarrinho={onOpenCarrinho} onOpenLogin={onOpenLogin} carrinhoCount={carrinhoCount} isMenuOpen={isMenuOpen} onToggleMenu={() => setIsMenuOpen(!isMenuOpen)} />
         </div>
-        <MobileNavigation 
-          isOpen={isMenuOpen} 
-          onClose={() => setIsMenuOpen(false)} 
-        />
+        <MobileNavigation isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       </div>
-    </header>
-  );
+    </header>;
 }
