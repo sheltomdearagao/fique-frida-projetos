@@ -3,6 +3,7 @@ import { FileText, Video, ShoppingCart, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useProducts } from "@/hooks/useProducts";
+import { GlareCard } from "@/components/ui/glare-card";
 
 interface ProjetosSectionProps {
   onAdicionarAoCarrinho?: (projeto: any) => void;
@@ -86,10 +87,10 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {products?.map(produto => (
-            <div 
-              key={produto.id} 
+            <GlareCard 
+              key={produto.id}
               onClick={() => handleVerDetalhes(produto)}
-              className="bg-white border-2 border-frida-beige rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+              className="cursor-pointer overflow-hidden bg-white"
             >
               <div className="relative">
                 <img 
@@ -169,7 +170,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   )}
                 </div>
               </div>
-            </div>
+            </GlareCard>
           ))}
         </div>
       </div>
