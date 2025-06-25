@@ -1,161 +1,117 @@
+// src/pages/Produto.tsx
 
-import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, ShoppingCart } from "lucide-react";
-import Header from "@/components/Header";
-import { useProducts } from "@/hooks/useProducts";
-import { usePurchases } from "@/hooks/usePurchases";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { supabase } from '@/lib/supabaseClient'; // Ajuste o caminho se necessário
+import Header from '@/components/Header'; // Supondo que você use o Header aqui
+
+// Definindo um tipo para o nosso produto para mais segurança
+type Produto = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_urls: string[];
+  // Adicione outros campos que seu produto tenha
+};
 
 export default function Produto() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const { data: products, isLoading } = useProducts();
-  const { createPurchase } = usePurchases();
-  const { isAuthenticated } = useAuth();
-  const { toast } = useToast();
+  const { id } = useParams<{ id: string }>(); // Pega o ID da URL
+  const [produto, setProduto] = useState<Produto | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const produto = products?.find(p => p.id === id);
+  // --- LÓGICA DA GALERIA ---
+  // Este estado vai guardar a URL da imagem que está em destaque no momento.
+  const [imagemSelecionada, setImagemSelecionada] = useState<string>('');
 
-  const getPromotionalPrice = (price: number) => {
-    return (price * 0.83).toFixed(2); // 17% de desconto no PIX (29,90 -> 24,90)
-  };
+  useEffect(() => {
+    const fetchProduto = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('products')
+        .select('id, name, description, price, image_urls')
+        .eq('id', id)
+        .single(); // .single() para pegar apenas um resultado
 
-  const handleComprar = async () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Login necessário",
-        description: "Faça login para finalizar sua compra.",
-        duration: 3000,
-        className: "bg-white border-2 border-frida-yellow shadow-lg",
-      });
-      navigate('/login');
-      return;
+      if (error) {
+        setError('Não foi possível carregar o produto.');
+        console.error(error);
+      } else {
+        setProduto(data);
+        // --- LÓGICA DA GALERIA ---
+        // Quando os dados chegam, definimos a PRIMEIRA imagem da lista
+        // como a imagem principal a ser exibida inicialmente.
+        if (data && data.image_urls && data.image_urls.length > 0) {
+          setImagemSelecionada(data.image_urls[0]);
+        }
+      }
+      setIsLoading(false);
+    };
+
+    if (id) {
+      fetchProduto();
     }
-
-    if (!produto) return;
-
-    try {
-      await createPurchase.mutateAsync({ productId: produto.id });
-      navigate(`/curso/${produto.id}`);
-    } catch (error) {
-      console.error('Erro ao processar compra:', error);
-    }
-  };
+  }, [id]);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-frida-beige">
-        <Header />
-        <main className="pt-20">
-          <div className="max-w-4xl mx-auto px-4 py-8">
-            <p className="text-center text-frida-dark">Carregando produto...</p>
-          </div>
-        </main>
-      </div>
-    );
+    return <div>Carregando...</div>;
   }
 
-  if (!produto) {
-    return (
-      <div className="min-h-screen bg-frida-beige">
-        <Header />
-        <main className="pt-20">
-          <div className="max-w-4xl mx-auto px-4 py-8">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-frida-red mb-4">Produto não encontrado</h1>
-              <button
-                onClick={() => navigate('/')}
-                className="bg-frida-red text-white px-6 py-3 rounded-lg font-bold hover:bg-frida-orange transition-colors"
-              >
-                Voltar ao início
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
+  if (error || !produto) {
+    return <div>{error || 'Produto não encontrado.'}</div>;
   }
 
   return (
-    <div className="min-h-screen bg-frida-beige">
+    <div className="min-h-screen bg-white">
       <Header />
-      <main className="pt-20">
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-frida-dark hover:text-frida-red transition-colors mb-6"
-          >
-            <ArrowLeft size={20} />
-            Voltar aos produtos
-          </button>
-
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <div className="md:w-1/2">
+      <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-8">
+          
+          {/* --- A GALERIA DE IMAGENS COMEÇA AQUI --- */}
+          <div className="flex flex-col gap-4">
+            {/* Imagem Principal em Destaque */}
+            <div className="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden shadow-lg cursor-pointer">
+              {imagemSelecionada && (
                 <img
-                  src={produto.image_url || ''}
-                  alt={produto.name}
-                  className="w-full h-64 md:h-full object-cover"
+                  src={imagemSelecionada}
+                  alt={`Imagem principal do produto ${produto.name}`}
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
-              </div>
-              
-              <div className="md:w-1/2 p-6 md:p-8">
-                <h1 className="font-display text-2xl md:text-3xl text-frida-red mb-4 font-bold">
-                  {produto.name}
-                </h1>
-                
-                <p className="text-frida-dark/80 mb-6 leading-relaxed">
-                  {produto.description}
-                </p>
-
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl md:text-3xl font-bold text-frida-green">
-                      R$ {getPromotionalPrice(produto.price || 0).replace('.', ',')}
-                    </span>
-                    <span className="bg-frida-green text-white px-3 py-1 rounded-full text-sm font-bold">
-                      PIX
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-frida-dark/60">
-                    <span className="line-through">
-                      R$ {produto.price?.toFixed(2).replace('.', ',')}
-                    </span>
-                    <span className="text-sm">
-                      em outros meios de pagamento
-                    </span>
-                  </div>
-                  <div className="mt-2 text-sm text-frida-green font-medium">
-                    💰 Economize R$ {((produto.price || 0) - parseFloat(getPromotionalPrice(produto.price || 0))).toFixed(2).replace('.', ',')} pagando no PIX!
-                  </div>
-                </div>
-
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3 text-frida-dark/70">
-                    <div className="w-2 h-2 bg-frida-green rounded-full"></div>
-                    <span>Acesso vitalício ao conteúdo</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-frida-dark/70">
-                    <div className="w-2 h-2 bg-frida-green rounded-full"></div>
-                    <span>Vídeo aula exclusiva</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-frida-dark/70">
-                    <div className="w-2 h-2 bg-frida-green rounded-full"></div>
-                    <span>Moldes em PDF para download</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleComprar}
-                  disabled={createPurchase.isPending}
-                  className="w-full flex items-center justify-center gap-3 bg-frida-red text-white px-6 py-4 rounded-lg font-bold text-lg hover:bg-frida-orange transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <ShoppingCart size={20} />
-                  {createPurchase.isPending ? 'Processando...' : 'Comprar Agora'}
-                </button>
-              </div>
+              )}
             </div>
+            
+            {/* Miniaturas (Thumbnails) */}
+            <div className="grid grid-cols-4 gap-2">
+              {produto.image_urls.map((url, index) => (
+                <div
+                  key={index}
+                  onClick={() => setImagemSelecionada(url)} // Ao clicar, muda a imagem principal
+                  className={`w-full aspect-square bg-gray-100 rounded-md overflow-hidden cursor-pointer transition-all duration-200 border-2 ${
+                    imagemSelecionada === url ? 'border-frida-red scale-105' : 'border-transparent hover:border-gray-300'
+                  }`}
+                >
+                  <img
+                    src={url}
+                    alt={`Miniatura ${index + 1} do produto ${produto.name}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* --- A GALERIA DE IMAGENS TERMINA AQUI --- */}
+
+          {/* Informações do Produto (lado direito) */}
+          <div className="flex flex-col">
+            <h1 className="font-display text-3xl md:text-4xl text-frida-blue font-bold mb-4">{produto.name}</h1>
+            <p className="text-frida-dark/80 mb-6">{produto.description}</p>
+            <div className="text-3xl font-bold text-frida-green mb-6">
+              R$ {produto.price?.toFixed(2).replace('.', ',')}
+            </div>
+            <button className="w-full bg-frida-red text-white py-3 rounded-lg font-bold hover:bg-frida-orange transition-all duration-300">
+              Adicionar ao Carrinho
+            </button>
           </div>
         </div>
       </main>
