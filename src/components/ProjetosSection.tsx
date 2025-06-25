@@ -19,6 +19,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   products?.forEach(produto => {
     console.log(`Produto: ${produto.name}`);
     console.log(`URL da imagem: ${produto.image_url}`);
+    console.log(`URLs das imagens: ${produto.image_urls}`);
   });
 
   const handleVerDetalhes = (produto: any) => {
@@ -73,8 +74,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
     );
   }
 
-  // Converter produtos para formato StackedCards
- return (
+  return (
     <section id="projetos" className="py-12 md:py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 md:mb-12">
@@ -99,7 +99,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
             // Se por algum motivo não houver imagens, criamos um card padrão
             if (cardsParaAnimacao.length === 0) {
               cardsParaAnimacao.push({
-                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
+                image: produto.image_url || 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
                 title: produto.name,
                 description: produto.description || '',
               });
