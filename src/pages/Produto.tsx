@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../integrations/supabase/client';
-import Header from '../components/Header'; // Caminho corrigido
+import Header from '../components/Header';
 
 // Definindo um tipo para o nosso produto para mais segurança
 type Produto = {
@@ -10,40 +10,29 @@ type Produto = {
   name: string;
   description: string;
   price: number;
-  image_urls: string[];
-  // Adicione outros campos que seu produto tenha
+  image_url: string;
 };
 
 export default function Produto() {
-  const { id } = useParams<{ id: string }>(); // Pega o ID da URL
+  const { id } = useParams<{ id: string }>();
   const [produto, setProduto] = useState<Produto | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // --- LÓGICA DA GALERIA ---
-  // Este estado vai guardar a URL da imagem que está em destaque no momento.
-  const [imagemSelecionada, setImagemSelecionada] = useState<string>('');
 
   useEffect(() => {
     const fetchProduto = async () => {
       setIsLoading(true);
       const { data, error } = await supabase
         .from('products')
-        .select('id, name, description, price, image_urls')
+        .select('id, name, description, price, image_url')
         .eq('id', id)
-        .single(); // .single() para pegar apenas um resultado
+        .single();
 
       if (error) {
         setError('Não foi possível carregar o produto.');
         console.error(error);
       } else {
         setProduto(data);
-        // --- LÓGICA DA GALERIA ---
-        // Quando os dados chegam, definimos a PRIMEIRA imagem da lista
-        // como a imagem principal a ser exibida inicialmente.
-        if (data && data.image_urls && data.image_urls.length > 0) {
-          setImagemSelecionada(data.image_urls[0]);
-        }
       }
       setIsLoading(false);
     };
@@ -67,39 +56,18 @@ export default function Produto() {
       <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-8">
           
-          {/* --- A GALERIA DE IMAGENS COMEÇA AQUI --- */}
+          {/* Imagem do Produto */}
           <div className="flex flex-col gap-4">
-            {/* Imagem Principal em Destaque */}
-            <div className="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden shadow-lg cursor-pointer">
-              {imagemSelecionada && (
+            <div className="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+              {produto.image_url && (
                 <img
-                  src={imagemSelecionada}
-                  alt={`Imagem principal do produto ${produto.name}`}
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  src={produto.image_url}
+                  alt={`Imagem do produto ${produto.name}`}
+                  className="w-full h-full object-cover"
                 />
               )}
             </div>
-            
-            {/* Miniaturas (Thumbnails) */}
-            <div className="grid grid-cols-4 gap-2">
-              {produto.image_urls.map((url, index) => (
-                <div
-                  key={index}
-                  onClick={() => setImagemSelecionada(url)} // Ao clicar, muda a imagem principal
-                  className={`w-full aspect-square bg-gray-100 rounded-md overflow-hidden cursor-pointer transition-all duration-200 border-2 ${
-                    imagemSelecionada === url ? 'border-frida-red scale-105' : 'border-transparent hover:border-gray-300'
-                  }`}
-                >
-                  <img
-                    src={url}
-                    alt={`Miniatura ${index + 1} do produto ${produto.name}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
-          {/* --- A GALERIA DE IMAGENS TERMINA AQUI --- */}
 
           {/* Informações do Produto (lado direito) */}
           <div className="flex flex-col">

@@ -19,7 +19,6 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   products?.forEach(produto => {
     console.log(`Produto: ${produto.name}`);
     console.log(`URL da imagem: ${produto.image_url}`);
-    console.log(`URLs das imagens: ${produto.image_urls}`);
   });
 
   const handleVerDetalhes = (produto: any) => {
@@ -86,24 +85,14 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
           </p>
         </div>
 
-        {/* --- ESTE É O BLOCO CORRIGIDO --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
           {products?.map(produto => {
-            // Lógica de Adaptação DENTRO do map
-            const cardsParaAnimacao = (produto.image_urls || []).map((url, index) => ({
-              image: url,
-              title: index === 0 ? produto.name : '',
-              description: index === 0 ? produto.description || '' : '',
-            }));
-
-            // Se por algum motivo não houver imagens, criamos um card padrão
-            if (cardsParaAnimacao.length === 0) {
-              cardsParaAnimacao.push({
-                image: produto.image_url || 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
-                title: produto.name,
-                description: produto.description || '',
-              });
-            }
+            // Criar card usando apenas image_url
+            const cardsParaAnimacao = [{
+              image: produto.image_url || 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
+              title: produto.name,
+              description: produto.description || '',
+            }];
             
             return (
               <div key={produto.id} className="flex flex-col items-center gap-y-4">
