@@ -74,14 +74,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   }
 
   // Converter produtos para formato StackedCards
-  const cardsData = products?.map(produto => ({
-    image: produto.image_url || 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
-    title: produto.name,
-    description: produto.description || '',
-    produto: produto, // Manter referência ao produto original
-  })) || [];
-
-  return (
+ return (
     <section id="projetos" className="py-12 md:py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 md:mb-12">
@@ -93,8 +86,47 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <StackedCardsInteraction cards={cardsData} />
+        {/* --- ESTE É O BLOCO CORRIGIDO --- */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
+          {products?.map(produto => {
+            // Lógica de Adaptação DENTRO do map
+            const cardsParaAnimacao = (produto.image_urls || []).map((url, index) => ({
+              image: url,
+              title: index === 0 ? produto.name : '',
+              description: index === 0 ? produto.description || '' : '',
+            }));
+
+            // Se por algum motivo não houver imagens, criamos um card padrão
+            if (cardsParaAnimacao.length === 0) {
+              cardsParaAnimacao.push({
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
+                title: produto.name,
+                description: produto.description || '',
+              });
+            }
+            
+            return (
+              <div key={produto.id} className="flex flex-col items-center gap-y-4">
+                {/* O Card agora é um Link funcional */}
+                <a onClick={() => handleVerDetalhes(produto)} className="cursor-pointer">
+                  <StackedCardsInteraction cards={cardsParaAnimacao} />
+                </a>
+
+                {/* Botão de Adicionar ao Carrinho */}
+                <div className="flex w-[350px]">
+                  {onAdicionarAoCarrinho && (
+                    <button 
+                      onClick={(e) => handleAdicionarCarrinho(e, produto)}
+                      className="w-full flex items-center justify-center gap-2 bg-frida-red text-white px-4 py-3 rounded-lg font-bold text-base hover:bg-frida-orange transition-all duration-300 hover:scale-105 active:scale-95"
+                    >
+                      <ShoppingCart size={18} />
+                      <span>Adicionar ao Carrinho</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
