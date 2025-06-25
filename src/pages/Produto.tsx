@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { supabase } from '@/lib/supabaseClient'; // Ajuste o caminho se necessário
-import Header from '@/components/Header'; // Supondo que você use o Header aqui
+import { supabase } from '../lib/supabaseClient'; // Caminho corrigido
+import Header from '../components/Header'; // Caminho corrigido
 
 // Definindo um tipo para o nosso produto para mais segurança
 type Produto = {
