@@ -19,6 +19,7 @@ import TermosUso from "./pages/TermosUso";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import { StackedCardsInteraction } from './components/StackedCards';
 
 const queryClient = new QueryClient();
 
