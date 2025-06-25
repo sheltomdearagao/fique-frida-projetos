@@ -1,9 +1,6 @@
-
 import { Play } from "lucide-react";
-
 export default function HeroSection() {
-  return (
-    <section className="bg-gradient-to-br from-frida-beige via-frida-warm to-white py-16 md:py-24 relative overflow-hidden">
+  return <section className="bg-gradient-to-br from-frida-beige via-frida-warm to-white py-16 md:py-24 relative overflow-hidden">
       {/* Elementos decorativos sutis */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-frida-yellow/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-frida-teal/5 rounded-full blur-3xl"></div>
@@ -27,11 +24,7 @@ export default function HeroSection() {
             <div className="md:w-1/2 relative flex items-center justify-center p-8">
               {/* Foto circular sem moldura rosa */}
               <div className="relative">
-                <img 
-                  src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png"
-                  alt="Mili - Criadora do Fique Frida"
-                  className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg"
-                />
+                <img src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png" alt="Mili - Criadora do Fique Frida" className="w-66 h-60 rounded-full object-cover border-0 border-white shadow-lg" />
                 {/* Efeito de brilho sutil */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
               </div>
@@ -58,6 +51,5 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 }
