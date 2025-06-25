@@ -1,6 +1,6 @@
 import { Play } from "lucide-react";
 export default function HeroSection() {
-  return <section className="bg-gradient-to-br from-frida-beige via-frida-warm to-white py-16 md:py-24 relative overflow-hidden">
+  return <section className="bg-gradient-to-br from-frida-beige via-frida-warm to-white py-16 relative overflow-hidden md:py-[86px]">
       {/* Elementos decorativos sutis */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-frida-yellow/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-frida-teal/5 rounded-full blur-3xl"></div>
@@ -20,7 +20,7 @@ export default function HeroSection() {
 
         {/* Preview de Projeto */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-frida-warm border border-frida-warm/20 overflow-hidden max-w-5xl mx-auto">
-          <div className="md:flex">
+          <div className="md:flex py-[15px] px-[69px] my-[39px]">
             <div className="md:w-1/2 relative flex items-center justify-center p-8">
               {/* Foto circular sem moldura rosa */}
               <div className="relative">
