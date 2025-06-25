@@ -1,4 +1,7 @@
+
 import { Play } from "lucide-react";
+import { GlareCard } from "@/components/ui/glare-card";
+
 export default function HeroSection() {
   return <section className="bg-gradient-to-br from-frida-beige via-frida-warm to-white py-16 relative overflow-hidden md:py-[86px]">
       {/* Elementos decorativos sutis */}
@@ -18,36 +21,45 @@ export default function HeroSection() {
           </p>
         </div>
 
-        {/* Preview de Projeto */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-frida-warm border border-frida-warm/20 overflow-hidden max-w-5xl mx-auto">
-          <div className="md:flex py-[15px] px-[69px] my-[39px]">
-            <div className="md:w-1/2 relative flex items-center justify-center p-8">
-              {/* Foto circular sem moldura rosa */}
-              <div className="relative">
-                <img src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png" alt="Mili - Criadora do Fique Frida" className="w-66 h-60 rounded-full object-cover border-0 border-white shadow-lg" />
-                {/* Efeito de brilho sutil */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+        {/* Foto sem moldura */}
+        <div className="flex justify-center mb-16">
+          <img 
+            src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png" 
+            alt="Mili - Criadora do Fique Frida" 
+            className="w-64 h-64 rounded-full object-cover shadow-2xl"
+          />
+        </div>
+
+        {/* Como Funciona com GlareCard */}
+        <div className="mb-12">
+          <h3 className="font-display text-3xl md:text-4xl text-frida-teal mb-12 text-center leading-tight">
+            Como Funciona?
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+            <GlareCard className="flex flex-col items-center justify-center min-h-[200px] bg-gradient-to-br from-frida-red to-frida-coral">
+              <div className="text-center">
+                <span className="bg-white text-frida-red rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold shadow-md mb-4 mx-auto">1</span>
+                <p className="text-white font-bold text-lg mb-2">Escolha seu projeto</p>
+                <p className="text-white/90 text-sm">Selecione a bolsa favorita</p>
               </div>
-            </div>
-            <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-              <h3 className="font-display text-3xl text-frida-teal mb-6 leading-tight">
-                Como Funciona?
-              </h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <span className="bg-gradient-to-br from-frida-red to-frida-coral text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-md flex-shrink-0 mt-1">1</span>
-                  <p className="text-frida-brown font-medium">Escolha seu projeto de bolsa favorito</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <span className="bg-gradient-to-br from-frida-teal to-frida-green text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-md flex-shrink-0 mt-1">2</span>
-                  <p className="text-frida-brown font-medium">Faça o pagamento e informe seu Gmail</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <span className="bg-gradient-to-br from-frida-yellow to-frida-orange text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-md flex-shrink-0 mt-1">3</span>
-                  <p className="text-frida-brown font-medium">Receba moldes em PDF + acesso à aula no YouTube</p>
-                </div>
+            </GlareCard>
+            
+            <GlareCard className="flex flex-col items-center justify-center min-h-[200px] bg-gradient-to-br from-frida-teal to-frida-green">
+              <div className="text-center">
+                <span className="bg-white text-frida-teal rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold shadow-md mb-4 mx-auto">2</span>
+                <p className="text-white font-bold text-lg mb-2">Faça o pagamento</p>
+                <p className="text-white/90 text-sm">Informe seu Gmail</p>
               </div>
-            </div>
+            </GlareCard>
+            
+            <GlareCard className="flex flex-col items-center justify-center min-h-[200px] bg-gradient-to-br from-frida-yellow to-frida-orange">
+              <div className="text-center">
+                <span className="bg-white text-frida-yellow rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold shadow-md mb-4 mx-auto">3</span>
+                <p className="text-white font-bold text-lg mb-2">Receba os materiais</p>
+                <p className="text-white/90 text-sm">Moldes PDF + aula YouTube</p>
+              </div>
+            </GlareCard>
           </div>
         </div>
       </div>
