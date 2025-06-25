@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { supabase } from '../integrations/supabase';
+import { supabase } from '../integrations/supabase/client';
 import Header from '../components/Header'; // Caminho corrigido
 
 // Definindo um tipo para o nosso produto para mais segurança
