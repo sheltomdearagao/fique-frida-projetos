@@ -73,7 +73,8 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
     );
   }
 
-  return (
+  // Converter produtos para formato StackedCards
+ return (
     <section id="projetos" className="py-12 md:py-16 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 md:mb-12">
@@ -85,14 +86,24 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
           </p>
         </div>
 
+        {/* --- ESTE É O BLOCO CORRIGIDO --- */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
           {products?.map(produto => {
-            // Criar card usando apenas image_url
-            const cardsParaAnimacao = [{
-              image: produto.image_url || 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
-              title: produto.name,
-              description: produto.description || '',
-            }];
+            // Lógica de Adaptação DENTRO do map
+            const cardsParaAnimacao = (produto.image_urls || []).map((url, index) => ({
+              image: url,
+              title: index === 0 ? produto.name : '',
+              description: index === 0 ? produto.description || '' : '',
+            }));
+
+            // Se por algum motivo não houver imagens, criamos um card padrão
+            if (cardsParaAnimacao.length === 0) {
+              cardsParaAnimacao.push({
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
+                title: produto.name,
+                description: produto.description || '',
+              });
+            }
             
             return (
               <div key={produto.id} className="flex flex-col items-center gap-y-4">
