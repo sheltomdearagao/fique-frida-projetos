@@ -1,4 +1,3 @@
-
 import { FileText, Video, ShoppingCart, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -90,13 +89,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
             <GlareCard 
               key={produto.id}
               onClick={() => handleVerDetalhes(produto)}
-              className="cursor-pointer overflow-hidden bg-white"
+              className="overflow-hidden bg-white flex flex-col"
             >
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <img 
                   src={produto.image_url || ''}
                   alt={produto.name}
-                  className="w-full h-40 sm:h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-40 sm:h-48 md:h-52 object-cover"
                   onError={(e) => {
                     console.error(`Erro ao carregar imagem para ${produto.name}:`, produto.image_url);
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
@@ -105,14 +104,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                     console.log(`Imagem carregada com sucesso para ${produto.name}`);
                   }}
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
               </div>
               
-              <div className="p-4 sm:p-5 lg:p-6">
-                <h3 className="font-display text-lg sm:text-xl text-frida-red mb-2 font-bold leading-tight group-hover:text-frida-orange transition-colors">
+              <div className="p-4 sm:p-5 lg:p-6 flex-1 flex flex-col">
+                <h3 className="font-display text-lg sm:text-xl text-frida-red mb-2 font-bold leading-tight">
                   {produto.name}
                 </h3>
-                <p className="text-sm sm:text-base text-frida-dark/80 mb-3 sm:mb-4 leading-relaxed">
+                <p className="text-sm sm:text-base text-frida-dark/80 mb-3 sm:mb-4 leading-relaxed flex-1">
                   {produto.description}
                 </p>
                 
@@ -146,7 +144,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-auto">
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
