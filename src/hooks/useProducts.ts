@@ -21,7 +21,7 @@ export const useProducts = () => {
       console.log('Carregando produtos do Supabase...');
       const { data, error } = await supabase
         .from('products')
-        .select('id, name, description, price, youtube_video_id, image_urls')
+        .select('id, name, description, price, youtube_video_id, image_url')
         .order('created_at', { ascending: true });
       
       if (error) {

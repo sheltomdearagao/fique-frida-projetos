@@ -15,14 +15,16 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-frida-cream via-white to-frida-cream/50">
       <Header />
-      <HeroSection />
-      <ProjetosSection
-        onAdicionarAoCarrinho={(produto) => {
-          adicionarAoCarrinho(produto);
-        }}
-      />
-      <SobreSection />
-      <NewsletterSection />
+      <div className="pt-header">
+        <HeroSection />
+        <ProjetosSection
+          onAdicionarAoCarrinho={(produto) => {
+            adicionarAoCarrinho(produto);
+          }}
+        />
+        <SobreSection />
+        <NewsletterSection />
+      </div>
     </div>
   );
 }

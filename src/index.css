@@ -25,6 +25,17 @@
       padding-top: 4.5rem; /* 72px */
     }
   }
+
+  /* Espaçamento para conteúdo quando header está fixo */
+  .pt-header {
+    padding-top: 5rem; /* 80px */
+  }
+  
+  @media (max-width: 768px) {
+    .pt-header {
+      padding-top: 4.5rem; /* 72px */
+    }
+  }
 }
 
 /* Utilitários personalizados */
