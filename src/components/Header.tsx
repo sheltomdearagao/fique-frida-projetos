@@ -15,7 +15,7 @@ export default function Header({
 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return <header className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200 fixed top-0 left-0 right-0 z-50 w-full">
-      <div className="max-w-6xl mx-auto py-3 sm:py-[3px] px-[12px]">
+      <div className="max-w-6xl mx-auto py-3 px-[12px] sm:py-px">
         <div className="flex justify-between items-center">
           <HeaderLogo />
           <DesktopNavigation />
