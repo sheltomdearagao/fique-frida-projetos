@@ -9,6 +9,15 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-frida-teal/5 rounded-full blur-3xl"></div>
       
       <div className="max-w-6xl mx-auto px-4 relative z-10">
+        {/* Logo/Texto Fique Frida */}
+        <div className="text-center mb-8">
+          <img 
+            src="/lovable-uploads/1ec00f97-06fc-4ee0-a229-8d5247d4b75d.png" 
+            alt="Fique Frida" 
+            className="mx-auto max-w-md w-full h-auto"
+          />
+        </div>
+
         <div className="text-center mb-16">
           <h1 className="font-display text-4xl md:text-6xl text-frida-red mb-6 font-bold leading-tight">
             Aprenda a Criar Bolsas
