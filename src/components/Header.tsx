@@ -31,9 +31,11 @@ export default function Header({ onOpenCarrinho, onOpenLogin, carrinhoCount = 0 
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center group">
-            <h1 className="font-display text-xl sm:text-2xl md:text-3xl text-frida-red font-bold transition-colors group-hover:text-frida-coral">
-              Fique Frida
-            </h1>
+            <img 
+              src="/lovable-uploads/0164f03c-cbd0-4f10-ad69-e33bcb257147.png" 
+              alt="Fique Frida Logo" 
+              className="h-10 w-auto sm:h-12 md:h-14 transition-transform group-hover:scale-105"
+            />
             <span className="hidden lg:block ml-3 text-sm text-frida-teal/80 font-medium">
               Projetos de Costura
             </span>
