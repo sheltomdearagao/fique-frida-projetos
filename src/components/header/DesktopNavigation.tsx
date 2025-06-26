@@ -1,7 +1,7 @@
 // src/components/DesktopNavigation.tsx
 
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth"; // <-- Verifique se este caminho está correto
+import { useAuth } from '../hooks/useAuth'; // <-- CAMINHO 100% CORRIGIDO
 
 const menu = [
   {
@@ -17,7 +17,6 @@ const menu = [
 export default function DesktopNavigation() {
   const { isAuthenticated } = useAuth();
 
-  // AGORA a função retorna um conteúdo visual (JSX)
   return (
     <nav className="flex items-center gap-x-8">
       {/* Links principais do menu */}
