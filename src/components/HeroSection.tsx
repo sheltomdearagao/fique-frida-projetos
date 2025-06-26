@@ -1,5 +1,7 @@
+
 import { Play } from "lucide-react";
 import { GlareCard } from "@/components/ui/glare-card";
+
 export default function HeroSection() {
   return <section className="bg-gradient-to-br from-frida-beige via-frida-warm to-white py-16 relative overflow-hidden md:py-[86px]">
       {/* Elementos decorativos sutis */}
@@ -7,11 +9,6 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-frida-teal/5 rounded-full blur-3xl"></div>
       
       <div className="max-w-6xl mx-auto px-4 relative z-10">
-        {/* Logo/Texto Fique Frida */}
-        <div className="text-center mb-8">
-          
-        </div>
-
         <div className="text-center mb-16">
           <h1 className="font-display text-4xl md:text-6xl text-frida-red mb-6 font-bold leading-tight">
             Aprenda a Criar Bolsas
@@ -26,7 +23,11 @@ export default function HeroSection() {
 
         {/* Foto sem moldura */}
         <div className="flex justify-center mb-16">
-          <img src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png" alt="Mili - Criadora do Fique Frida" className="w-64 h-64 rounded-full object-cover shadow-2xl" />
+          <img 
+            src="/lovable-uploads/5c30abb7-fa47-4565-9e6a-eb0771836632.png" 
+            alt="Mili - Criadora do Fique Frida" 
+            className="w-64 h-64 rounded-full object-cover shadow-2xl"
+          />
         </div>
 
         {/* Como Funciona com GlareCard */}
