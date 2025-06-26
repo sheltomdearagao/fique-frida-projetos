@@ -15,17 +15,6 @@
     @apply font-netflix;
     letter-spacing: 0.02em;
   }
-  
-  /* Ajustar padding para header fixo */
-  main.pt-20 {
-    padding-top: 5rem; /* 80px */
-  }
-  
-  @media (max-width: 768px) {
-    main.pt-20 {
-      padding-top: 4.5rem; /* 72px */
-    }
-  }
 }
 
 /* Utilitários personalizados */

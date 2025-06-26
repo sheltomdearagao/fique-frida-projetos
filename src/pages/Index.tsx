@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Header from "@/components/Header";
 import ProductCarousel from "@/components/ProductCarousel";
@@ -91,9 +90,9 @@ const Index = () => {
         carrinhoCount={totalItems}
       />
       
-      <main className="pt-20">
+      <main>
         {/* Hero Section */}
-        <div className="relative h-[70vh] lg:h-[80vh] overflow-hidden">
+        <div className="relative h-[80vh] lg:h-[90vh] overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-netflix-black via-netflix-black/60 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-netflix-black via-transparent to-transparent z-10"></div>
           
@@ -109,22 +108,22 @@ const Index = () => {
           )}
           
           <div className="absolute inset-0 z-20 flex items-center">
-            <div className="px-4 lg:px-8 max-w-2xl">
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4 font-netflix">
+            <div className="px-4 lg:px-8 max-w-3xl">
+              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 font-netflix">
                 FlixFrida
               </h1>
-              <p className="text-lg lg:text-xl text-gray-300 mb-6 leading-relaxed">
+              <p className="text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed">
                 Descubra o mundo da costura através dos olhos de Frida. 
                 Projetos únicos, aulas exclusivas e inspiração sem limites.
               </p>
               <div className="flex gap-4">
                 <button 
                   onClick={() => featuredProducts[0] && handleProductClick(featuredProducts[0])}
-                  className="bg-white text-netflix-black px-6 lg:px-8 py-3 lg:py-4 rounded font-bold text-sm lg:text-base hover:bg-gray-200 transition-colors"
+                  className="bg-white text-netflix-black px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-200 transition-colors flex items-center gap-3"
                 >
                   ▶ Começar Agora
                 </button>
-                <button className="bg-gray-600/70 text-white px-6 lg:px-8 py-3 lg:py-4 rounded font-bold text-sm lg:text-base hover:bg-gray-600/90 transition-colors">
+                <button className="bg-gray-600/70 text-white px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-600/90 transition-colors">
                   ℹ Mais Informações
                 </button>
               </div>
@@ -133,7 +132,7 @@ const Index = () => {
         </div>
 
         {/* Carrosséis de Produtos */}
-        <div className="relative -mt-32 lg:-mt-40 z-30">
+        <div className="relative -mt-40 lg:-mt-48 z-30">
           <ProductCarousel
             title="🔥 Lançamentos"
             products={recentProducts}
