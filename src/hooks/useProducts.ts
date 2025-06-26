@@ -36,9 +36,9 @@ export const useProducts = () => {
         ...product,
         // Se o produto tem image_url (singular), converte para image_urls (array)
         // Se já tem image_urls (array), mantém
-        image_urls: product.image_urls 
-          ? (Array.isArray(product.image_urls) ? product.image_urls : [product.image_urls])
-          : (product.image_url ? [product.image_url] : [])
+        image_urls: (product as any).image_urls 
+          ? (Array.isArray((product as any).image_urls) ? (product as any).image_urls : [(product as any).image_urls])
+          : ((product as any).image_url ? [(product as any).image_url] : [])
       }));
       
       return transformedData as Product[];
