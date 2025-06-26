@@ -76,11 +76,7 @@ const Index = () => {
     );
   }
 
-  // Organizar produtos em diferentes seções
   const allProducts = products || [];
-  const recentProducts = allProducts.slice(0, 6);
-  const popularProducts = allProducts.slice(2, 8);
-  const featuredProducts = allProducts.slice(1, 7);
 
   return (
     <div className="min-h-screen bg-netflix-black">
@@ -96,13 +92,13 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-netflix-black via-netflix-black/60 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-netflix-black via-transparent to-transparent z-10"></div>
           
-          {featuredProducts[0] && (
+          {allProducts[0] && (
             <img
-              src={featuredProducts[0].image_urls?.[0] || ''}
+              src={allProducts[0].image_urls?.[0] || ''}
               alt="Hero"
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1920&q=80';
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1920&q=80';
               }}
             />
           )}
@@ -118,7 +114,7 @@ const Index = () => {
               </p>
               <div className="flex gap-4">
                 <button 
-                  onClick={() => featuredProducts[0] && handleProductClick(featuredProducts[0])}
+                  onClick={() => allProducts[0] && handleProductClick(allProducts[0])}
                   className="bg-white text-netflix-black px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-200 transition-colors flex items-center gap-3"
                 >
                   ▶ Começar Agora
@@ -131,37 +127,14 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Carrosséis de Produtos */}
+        {/* Carrossel de Produtos */}
         <div className="relative -mt-40 lg:-mt-48 z-30">
           <ProductCarousel
-            title="🔥 Lançamentos"
-            products={recentProducts}
+            title="🧵 Todos os Projetos de Costura"
+            products={allProducts}
             onProductClick={handleProductClick}
             onAddToCart={adicionarAoCarrinho}
           />
-
-          <ProductCarousel
-            title="⭐ Mais Populares"
-            products={popularProducts}
-            onProductClick={handleProductClick}
-            onAddToCart={adicionarAoCarrinho}
-          />
-
-          <ProductCarousel
-            title="🎨 Projetos em Destaque"
-            products={featuredProducts}
-            onProductClick={handleProductClick}
-            onAddToCart={adicionarAoCarrinho}
-          />
-
-          {allProducts.length > 6 && (
-            <ProductCarousel
-              title="📚 Todos os Projetos"
-              products={allProducts}
-              onProductClick={handleProductClick}
-              onAddToCart={adicionarAoCarrinho}
-            />
-          )}
         </div>
 
         {/* Footer */}

@@ -31,14 +31,15 @@ export const useProducts = () => {
       
       console.log('Produtos carregados:', data);
       
-      // Transformar image_url em image_urls array para compatibilidade
+      // Garantir que temos o array image_urls correto do Supabase
       const transformedData = data.map(product => ({
         ...product,
-        image_urls: product.image_url ? [product.image_url] : []
+        // Se image_urls já é um array, usa ele, senão cria array vazio
+        image_urls: Array.isArray(product.image_urls) ? product.image_urls : []
       }));
       
       return transformedData as Product[];
     },
-    staleTime: 5 * 60 * 1000, // Cache por 5 minutos
+    staleTime: 5 * 60 * 1000,
   });
 };
