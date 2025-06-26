@@ -46,7 +46,7 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
   const renderProductImages = (imageUrls: string[] | null, productName: string) => {
     if (!imageUrls || imageUrls.length === 0) {
       return (
-        <div className="w-full h-40 sm:h-48 md:h-52 bg-gray-800 flex items-center justify-center">
+        <div className="w-full h-48 sm:h-56 lg:h-64 bg-gray-800 flex items-center justify-center">
           <span className="text-gray-400">Sem imagem</span>
         </div>
       );
@@ -56,7 +56,7 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
     const secondaryImages = imageUrls.slice(1, 3);
 
     return (
-      <div className="relative w-full h-40 sm:h-48 md:h-52 flex gap-1">
+      <div className="relative w-full h-48 sm:h-56 lg:h-64 flex gap-1">
         <div className="flex-1 relative overflow-hidden rounded-l-lg">
           <img 
             src={mainImage}
@@ -69,7 +69,7 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
         </div>
 
         {secondaryImages.length > 0 && (
-          <div className="w-20 sm:w-24 flex flex-col gap-1">
+          <div className="w-20 sm:w-24 lg:w-28 flex flex-col gap-1">
             {secondaryImages.map((imageUrl, index) => (
               <div 
                 key={index} 
@@ -104,38 +104,38 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
   return (
     <div 
       onClick={() => onVerDetalhes(produto)}
-      className="bg-gray-900/95 border border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:shadow-frida-magenta/20 transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+      className="bg-gray-900/95 border border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:shadow-frida-magenta/20 transition-all duration-300 hover:scale-[1.02] cursor-pointer group max-w-sm mx-auto"
     >
       <div className="relative overflow-hidden">
         {renderProductImages(produto.image_urls, produto.name)}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
       </div>
       
-      <div className="p-4 sm:p-5 lg:p-6">
-        <h3 className="font-netflix text-lg sm:text-xl text-white mb-2 font-bold leading-tight group-hover:text-frida-magenta transition-colors">
+      <div className="p-5 lg:p-6">
+        <h3 className="font-netflix text-xl lg:text-2xl text-white mb-3 font-bold leading-tight group-hover:text-frida-magenta transition-colors">
           {produto.name}
         </h3>
-        <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4 leading-relaxed">
+        <p className="text-sm lg:text-base text-gray-300 mb-4 leading-relaxed line-clamp-3">
           {produto.description}
         </p>
         
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-sm text-gray-400">
-          <div className="flex items-center gap-1 sm:gap-1.5">
-            <FileText size={14} className="sm:w-4 sm:h-4 text-frida-magenta" />
+        <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-400">
+          <div className="flex items-center gap-2">
+            <FileText size={16} className="text-frida-magenta" />
             <span>Moldes PDF</span>
           </div>
-          <div className="flex items-center gap-1 sm:gap-1.5">
-            <Video size={14} className="sm:w-4 sm:h-4 text-frida-magenta" />
+          <div className="flex items-center gap-2">
+            <Video size={16} className="text-frida-magenta" />
             <span>Aula YouTube</span>
           </div>
         </div>
 
-        <div className="mb-4 sm:mb-5">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-lg sm:text-xl font-bold text-frida-magenta">
+        <div className="mb-5">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-2xl lg:text-3xl font-bold text-frida-magenta">
               R$ {getPromotionalPrice(produto.price || 0).replace('.', ',')}
             </span>
-            <span className="text-xs sm:text-sm bg-frida-magenta text-white px-2 py-1 rounded font-bold">
+            <span className="text-sm bg-frida-magenta text-white px-2 py-1 rounded font-bold">
               PIX
             </span>
           </div>
@@ -149,15 +149,15 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+        <div className="flex flex-col gap-3">
           <button 
             onClick={(e) => {
               e.stopPropagation();
               onVerDetalhes(produto);
             }}
-            className="flex-1 flex items-center justify-center gap-2 bg-frida-magenta text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-magenta/80 transition-all duration-300 hover:scale-105 active:scale-95"
+            className="w-full flex items-center justify-center gap-2 bg-frida-magenta text-white px-4 py-3 rounded-lg font-bold text-base hover:bg-frida-magenta/80 transition-all duration-300 hover:scale-105 active:scale-95"
           >
-            <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+            <ArrowRight size={18} />
             Ver Detalhes
           </button>
           
@@ -167,11 +167,10 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
               handleBuy(produto);
             }}
             disabled={isLoading}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-transparent border-2 border-frida-magenta text-frida-magenta px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-magenta hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 bg-transparent border-2 border-frida-magenta text-frida-magenta px-4 py-3 rounded-lg font-bold text-base hover:bg-frida-magenta hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ShoppingCart size={16} className="sm:w-[18px] sm:h-[18px]" />
-            <span className="hidden sm:inline">{isLoading ? 'Processando...' : 'Comprar'}</span>
-            <span className="sm:hidden">{isLoading ? '...' : '+'}</span>
+            <ShoppingCart size={18} />
+            {isLoading ? 'Processando...' : 'Comprar Agora'}
           </button>
         </div>
       </div>
