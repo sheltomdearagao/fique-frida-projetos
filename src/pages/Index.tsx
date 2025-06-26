@@ -6,7 +6,6 @@ import Login from "@/components/Login";
 import { useProducts } from "@/hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-
 interface CarrinhoItem {
   id: string;
   nome: string;
@@ -15,24 +14,25 @@ interface CarrinhoItem {
   quantidade: number;
   imagem: string;
 }
-
 const Index = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const { data: products, isLoading } = useProducts();
+  const {
+    toast
+  } = useToast();
+  const {
+    data: products,
+    isLoading
+  } = useProducts();
   const [carrinhoAberto, setCarrinhoAberto] = useState(false);
   const [loginAberto, setLoginAberto] = useState(false);
   const [carrinhoItems, setCarrinhoItems] = useState<CarrinhoItem[]>([]);
-
   const adicionarAoCarrinho = (produto: any) => {
     const itemExistente = carrinhoItems.find(item => item.id === produto.id);
-    
     if (itemExistente) {
-      setCarrinhoItems(carrinhoItems.map(item =>
-        item.id === produto.id 
-          ? { ...item, quantidade: item.quantidade + 1 }
-          : item
-      ));
+      setCarrinhoItems(carrinhoItems.map(item => item.id === produto.id ? {
+        ...item,
+        quantidade: item.quantidade + 1
+      } : item));
     } else {
       setCarrinhoItems([...carrinhoItems, {
         id: produto.id,
@@ -43,48 +43,34 @@ const Index = () => {
         imagem: produto.image_urls?.[0] || ''
       }]);
     }
-
     toast({
       title: "✅ Produto adicionado!",
       description: `${produto.name} foi adicionado ao seu carrinho.`,
       duration: 3000,
-      className: "bg-gray-900 border-frida-magenta text-white",
+      className: "bg-gray-900 border-frida-magenta text-white"
     });
   };
-
   const handleProductClick = (produto: any) => {
     navigate(`/produto/${produto.id}`);
   };
-
   const atualizarQuantidade = (id: string, quantidade: number) => {
-    setCarrinhoItems(carrinhoItems.map(item =>
-      item.id === id ? { ...item, quantidade } : item
-    ));
+    setCarrinhoItems(carrinhoItems.map(item => item.id === id ? {
+      ...item,
+      quantidade
+    } : item));
   };
-
   const removerItem = (id: string) => {
     setCarrinhoItems(carrinhoItems.filter(item => item.id !== id));
   };
-
   const totalItems = carrinhoItems.reduce((sum, item) => sum + item.quantidade, 0);
-
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-netflix-black flex items-center justify-center">
+    return <div className="min-h-screen bg-netflix-black flex items-center justify-center">
         <div className="text-white text-xl">Carregando FlixFrida...</div>
-      </div>
-    );
+      </div>;
   }
-
   const allProducts = products || [];
-
-  return (
-    <div className="min-h-screen bg-netflix-black">
-      <Header 
-        onOpenCarrinho={() => setCarrinhoAberto(true)}
-        onOpenLogin={() => setLoginAberto(true)}
-        carrinhoCount={totalItems}
-      />
+  return <div className="min-h-screen bg-netflix-black">
+      <Header onOpenCarrinho={() => setCarrinhoAberto(true)} onOpenLogin={() => setLoginAberto(true)} carrinhoCount={totalItems} />
       
       <main>
         {/* Hero Section */}
@@ -92,16 +78,9 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-netflix-black via-netflix-black/60 to-transparent z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-netflix-black via-transparent to-transparent z-10"></div>
           
-          {allProducts[0] && (
-            <img
-              src={allProducts[0].image_urls?.[0] || ''}
-              alt="Hero"
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1920&q=80';
-              }}
-            />
-          )}
+          {allProducts[0] && <img src={allProducts[0].image_urls?.[0] || ''} alt="Hero" className="w-full h-full object-cover" onError={e => {
+          e.currentTarget.src = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1920&q=80';
+        }} />}
           
           <div className="absolute inset-0 z-20 flex items-center">
             <div className="px-4 lg:px-8 max-w-3xl">
@@ -113,10 +92,7 @@ const Index = () => {
                 Projetos únicos, aulas exclusivas e inspiração sem limites.
               </p>
               <div className="flex gap-4">
-                <button 
-                  onClick={() => allProducts[0] && handleProductClick(allProducts[0])}
-                  className="bg-white text-netflix-black px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-200 transition-colors flex items-center gap-3"
-                >
+                <button onClick={() => allProducts[0] && handleProductClick(allProducts[0])} className="bg-white text-netflix-black px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-200 transition-colors flex items-center gap-3">
                   ▶ Começar Agora
                 </button>
                 <button className="bg-gray-600/70 text-white px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-600/90 transition-colors">
@@ -129,16 +105,11 @@ const Index = () => {
 
         {/* Carrossel de Produtos */}
         <div className="relative -mt-40 lg:-mt-48 z-30">
-          <ProductCarousel
-            title="🧵 Todos os Projetos de Costura"
-            products={allProducts}
-            onProductClick={handleProductClick}
-            onAddToCart={adicionarAoCarrinho}
-          />
+          <ProductCarousel title="🧵 Todos os Projetos de Costura" products={allProducts} onProductClick={handleProductClick} onAddToCart={adicionarAoCarrinho} />
         </div>
 
         {/* Footer */}
-        <footer className="bg-netflix-black/90 text-white py-16 mt-16">
+        <footer className="bg-netflix-black/90 text-white mt-16 py-[4px] my-[58px]">
           <div className="max-w-6xl mx-auto px-4 lg:px-8">
             <div className="text-center mb-8">
               <h3 className="font-netflix text-3xl text-white mb-4">FlixFrida</h3>
@@ -188,20 +159,9 @@ const Index = () => {
         </footer>
       </main>
 
-      <Carrinho
-        isOpen={carrinhoAberto}
-        onClose={() => setCarrinhoAberto(false)}
-        items={carrinhoItems}
-        onUpdateQuantity={atualizarQuantidade}
-        onRemoveItem={removerItem}
-      />
+      <Carrinho isOpen={carrinhoAberto} onClose={() => setCarrinhoAberto(false)} items={carrinhoItems} onUpdateQuantity={atualizarQuantidade} onRemoveItem={removerItem} />
 
-      <Login
-        isOpen={loginAberto}
-        onClose={() => setLoginAberto(false)}
-      />
-    </div>
-  );
+      <Login isOpen={loginAberto} onClose={() => setLoginAberto(false)} />
+    </div>;
 };
-
 export default Index;
