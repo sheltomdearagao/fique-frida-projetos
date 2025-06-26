@@ -1,3 +1,4 @@
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef } from "react";
 import { Product } from "@/hooks/useProducts";
@@ -18,34 +19,6 @@ export default function ProductCarousel({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleBuy = async (product: Product) => {
-    setIsLoading(true);
-    
-    try {
-      const response = await fetch('/api/create-payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        window.location.href = data.init_point;
-      } else {
-        throw new Error(data.error || 'Erro ao iniciar o pagamento.');
-      }
-    } catch (error) {
-      console.error('Falha ao criar o pagamento:', error);
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const scroll = (direction: 'left' | 'right') => {
     const container = scrollContainerRef.current;
@@ -103,13 +76,13 @@ export default function ProductCarousel({
             scrollbarWidth: 'none',
             msOverflowStyle: 'none'
           }} 
-          className="flex gap-2 lg:gap-4 overflow-x-auto hide-scrollbar px-4 lg:px-8 pb-4 py-[71px]"
+          className="flex gap-2 lg:gap-4 overflow-x-auto hide-scrollbar px-4 lg:px-8 pb-4 py-[71px] md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6"
         >
           {products.map(product => (
             <div 
               key={product.id} 
               onClick={() => onProductClick(product)} 
-              className="flex-none w-48 lg:w-64 bg-gray-900/95 rounded-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:z-10 hover:shadow-2xl hover:shadow-frida-magenta/20 group/card"
+              className="flex-none w-[85vw] md:w-auto bg-gray-900/95 rounded-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:z-10 hover:shadow-2xl hover:shadow-frida-magenta/20 group/card"
             >
               {/* Imagem do Produto */}
               <div className="relative aspect-[16/9] overflow-hidden">
@@ -141,12 +114,11 @@ export default function ProductCarousel({
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleBuy(product);
+                      onAddToCart?.(product);
                     }} 
-                    disabled={isLoading}
-                    className="bg-frida-magenta hover:bg-frida-magenta/80 text-white px-3 py-1.5 rounded transition-colors font-semibold text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-frida-magenta hover:bg-frida-magenta/80 text-white px-3 py-1.5 rounded transition-colors font-semibold text-base"
                   >
-                    {isLoading ? 'Processando...' : 'Quero!'}
+                    Quero!
                   </button>
                 </div>
               </div>

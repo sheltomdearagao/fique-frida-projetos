@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import ProductCarousel from "@/components/ProductCarousel";
+import HeroCarousel from "@/components/HeroCarousel";
 import Carrinho from "@/components/Carrinho";
 import Login from "@/components/Login";
 import { useProducts } from "@/hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+
 interface CarrinhoItem {
   id: string;
   nome: string;
@@ -14,6 +16,7 @@ interface CarrinhoItem {
   quantidade: number;
   imagem: string;
 }
+
 const Index = () => {
   const navigate = useNavigate();
   const {
@@ -29,10 +32,11 @@ const Index = () => {
   const adicionarAoCarrinho = (produto: any) => {
     const itemExistente = carrinhoItems.find(item => item.id === produto.id);
     if (itemExistente) {
-      setCarrinhoItems(carrinhoItems.map(item => item.id === produto.id ? {
-        ...item,
-        quantidade: item.quantidade + 1
-      } : item));
+      setCarrinhoItems(carrinhoItems.map(item => 
+        item.id === produto.id 
+          ? { ...item, quantidade: item.quantidade + 1 }
+          : item
+      ));
     } else {
       setCarrinhoItems([...carrinhoItems, {
         id: produto.id,
@@ -70,36 +74,27 @@ const Index = () => {
   }
   const allProducts = products || [];
   return <div className="min-h-screen bg-netflix-black">
-      <Header onOpenCarrinho={() => setCarrinhoAberto(true)} onOpenLogin={() => setLoginAberto(true)} carrinhoCount={totalItems} />
+      <Header 
+        onOpenCarrinho={() => setCarrinhoAberto(true)} 
+        onOpenLogin={() => setLoginAberto(true)} 
+        carrinhoCount={totalItems} 
+      />
       
       <main>
-        {/* Hero Section */}
-        <div className="relative h-[80vh] lg:h-[90vh] overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-netflix-black via-netflix-black/60 to-transparent z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-netflix-black via-transparent to-transparent z-10"></div>
-          
-          {allProducts[0] && <img src={allProducts[0].image_urls?.[0] || ''} alt="Hero" className="w-full h-full object-cover" onError={e => {
-          e.currentTarget.src = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1920&q=80';
-        }} />}
-          
-          <div className="absolute inset-0 z-20 flex items-center">
-            <div className="px-4 lg:px-8 max-w-3xl mx-0">
-              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 font-netflix">Costure comigo</h1>
-              <p className="text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed">Descubra o mundo da costura através dos olhos da Fique Frida. 
-Projetos únicos, aulas exclusivas e inspiração sem limites.</p>
-              <div className="flex gap-4">
-                <button onClick={() => allProducts[0] && handleProductClick(allProducts[0])} className="bg-white text-netflix-black px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-200 transition-colors flex items-center gap-3">
-                  ▶ Começar Agora
-                </button>
-                <button className="bg-gray-600/70 text-white px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-600/90 transition-colors"> Como Funciona</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Hero Section com Carrossel */}
+        <HeroCarousel 
+          products={allProducts} 
+          onProductClick={handleProductClick} 
+        />
 
         {/* Carrossel de Produtos */}
         <div className="relative -mt-40 lg:-mt-48 z-30">
-          <ProductCarousel title="🧵 Todos os Projetos de Costura" products={allProducts} onProductClick={handleProductClick} onAddToCart={adicionarAoCarrinho} />
+          <ProductCarousel 
+            title="🧵 Todos os Projetos de Costura" 
+            products={allProducts} 
+            onProductClick={handleProductClick} 
+            onAddToCart={adicionarAoCarrinho} 
+          />
         </div>
 
         {/* Footer */}
