@@ -84,18 +84,14 @@ const Index = () => {
           
           <div className="absolute inset-0 z-20 flex items-center">
             <div className="px-4 lg:px-8 max-w-3xl mx-0">
-              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 font-netflix">Projetos da Fique Frida</h1>
-              <p className="text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed">
-                Descubra o mundo da costura através dos olhos de Frida. 
-                Projetos únicos, aulas exclusivas e inspiração sem limites.
-              </p>
+              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 font-netflix">Costure comigo</h1>
+              <p className="text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed">Descubra o mundo da costura através dos olhos da Fique Frida. 
+Projetos únicos, aulas exclusivas e inspiração sem limites.</p>
               <div className="flex gap-4">
                 <button onClick={() => allProducts[0] && handleProductClick(allProducts[0])} className="bg-white text-netflix-black px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-200 transition-colors flex items-center gap-3">
                   ▶ Começar Agora
                 </button>
-                <button className="bg-gray-600/70 text-white px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-600/90 transition-colors">
-                  ℹ Mais Informações
-                </button>
+                <button className="bg-gray-600/70 text-white px-8 lg:px-10 py-4 lg:py-5 rounded font-bold text-base lg:text-lg hover:bg-gray-600/90 transition-colors"> Como Funciona</button>
               </div>
             </div>
           </div>
