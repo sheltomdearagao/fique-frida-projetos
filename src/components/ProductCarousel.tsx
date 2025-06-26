@@ -64,12 +64,12 @@ export default function ProductCarousel({
               </div>
 
               {/* Informações do Produto - Sempre Visíveis */}
-              <div className="p-3 lg:p-4 bg-gray-900/95">
-                <h3 className="text-white font-semibold text-sm lg:text-base mb-2 line-clamp-2 leading-tight">
+              <div className="p-3 lg:p-4 bg-gray-900/95 py-[21px]">
+                <h3 className="text-white lg:text-base mb-2 line-clamp-2 leading-tight font-medium text-2xl">
                   {product.name}
                 </h3>
                 
-                <p className="text-gray-300 text-xs lg:text-sm mb-3 line-clamp-2 leading-relaxed">
+                <p className="text-gray-300 lg:text-sm mb-3 line-clamp-2 leading-relaxed text-base font-thin text-left">
                   {product.description}
                 </p>
                 
