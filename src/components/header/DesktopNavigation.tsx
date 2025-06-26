@@ -1,17 +1,9 @@
-// src/components/DesktopNavigation.tsx
-
 import { Link } from "react-router-dom";
-import { useAuth } from '../hooks/useAuth'; // <-- CAMINHO 100% CORRIGIDO
+import { useAuth } from '../../hooks/useAuth'; // CAMINHO CORRIGIDO
 
 const menu = [
-  {
-    name: "Início",
-    href: "/",
-  },
-  {
-    name: "Contato",
-    href: "/contato",
-  },
+  { name: "Início", href: "/" },
+  { name: "Contato", href: "/contato" },
 ];
 
 export default function DesktopNavigation() {
@@ -19,7 +11,6 @@ export default function DesktopNavigation() {
 
   return (
     <nav className="flex items-center gap-x-8">
-      {/* Links principais do menu */}
       <ul className="flex items-center gap-x-6">
         {menu.map((item) => (
           <li key={item.name}>
@@ -32,14 +23,9 @@ export default function DesktopNavigation() {
           </li>
         ))}
       </ul>
-
-      {/* Divisória visual */}
       <div className="h-6 w-px bg-gray-300" />
-
-      {/* Botões de Ação (Login/Cadastro ou Dashboard) */}
       <div className="flex items-center gap-x-4">
         {isAuthenticated ? (
-          // O que mostrar se o usuário ESTIVER LOGADO
           <Link
             to="/dashboard"
             className="bg-frida-blue text-white px-4 py-2 rounded-md font-bold text-sm hover:bg-frida-red transition-colors duration-300"
@@ -47,7 +33,6 @@ export default function DesktopNavigation() {
             Meu Painel
           </Link>
         ) : (
-          // O que mostrar se o usuário NÃO ESTIVER LOGADO
           <>
             <Link
               to="/login"
