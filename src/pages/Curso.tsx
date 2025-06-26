@@ -122,7 +122,7 @@ export default function Curso() {
                 {!showVideo ? (
                   <div className="relative w-full h-full">
                     <img
-                      src={produto?.image_url || ''}
+                      src={produto?.image_urls?.[0] || ''}
                       alt="Thumbnail do vídeo"
                       className="w-full h-full object-cover"
                     />

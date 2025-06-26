@@ -7,7 +7,7 @@ export interface Product {
   name: string;
   description: string | null;
   price: number | null;
-  image_urls: string[] | null;  // Mudança: agora é um array
+  image_urls: string[] | null;
   youtube_unlisted_url: string | null;
   pdf_url: string | null;
   youtube_video_id: string;
@@ -30,7 +30,14 @@ export const useProducts = () => {
       }
       
       console.log('Produtos carregados:', data);
-      return data as Product[];
+      
+      // Transformar image_url em image_urls array para compatibilidade
+      const transformedData = data.map(product => ({
+        ...product,
+        image_urls: product.image_url ? [product.image_url] : []
+      }));
+      
+      return transformedData as Product[];
     },
     staleTime: 5 * 60 * 1000, // Cache por 5 minutos
   });
