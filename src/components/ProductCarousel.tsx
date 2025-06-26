@@ -64,7 +64,7 @@ export default function ProductCarousel({
               </div>
 
               {/* Informações do Produto - Sempre Visíveis */}
-              <div className="p-3 lg:p-4 bg-gray-900/95 py-[21px]">
+              <div className="p-3 lg:p-4 bg-gray-900/95 py-[20px] px-[8px] mx-0">
                 <h3 className="text-white lg:text-base mb-2 line-clamp-2 leading-tight font-medium text-2xl">
                   {product.name}
                 </h3>
@@ -81,9 +81,7 @@ export default function ProductCarousel({
                   {onAddToCart && <button onClick={e => {
                 e.stopPropagation();
                 onAddToCart(product);
-              }} className="bg-frida-magenta hover:bg-frida-magenta/80 text-white text-xs px-3 py-1.5 rounded transition-colors font-medium">
-                      + Cart
-                    </button>}
+              }} className="bg-frida-magenta hover:bg-frida-magenta/80 text-white px-3 py-1.5 rounded transition-colors font-semibold text-base">Quero!</button>}
                 </div>
               </div>
             </div>)}
