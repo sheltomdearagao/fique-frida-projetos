@@ -1,5 +1,6 @@
 
 import { FileText, Video, ShoppingCart, ArrowRight } from "lucide-react";
+import { useState } from "react";
 import { Product } from "@/hooks/useProducts";
 
 interface ProductCardProps {
@@ -9,6 +10,35 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinho }: ProductCardProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleBuy = async (product: Product) => {
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch('/api/create-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        window.location.href = data.init_point;
+      } else {
+        throw new Error(data.error || 'Erro ao iniciar o pagamento.');
+      }
+    } catch (error) {
+      console.error('Falha ao criar o pagamento:', error);
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const getPromotionalPrice = (price: number) => {
     return (price * 0.83).toFixed(2);
   };
@@ -131,16 +161,18 @@ export default function ProductCard({ produto, onVerDetalhes, onAdicionarCarrinh
             Ver Detalhes
           </button>
           
-          {onAdicionarCarrinho && (
-            <button 
-              onClick={(e) => onAdicionarCarrinho(e, produto)}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-transparent border-2 border-frida-magenta text-frida-magenta px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-magenta hover:text-white transition-all duration-300 hover:scale-105 active:scale-95"
-            >
-              <ShoppingCart size={16} className="sm:w-[18px] sm:h-[18px]" />
-              <span className="hidden sm:inline">Adicionar</span>
-              <span className="sm:hidden">+</span>
-            </button>
-          )}
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBuy(produto);
+            }}
+            disabled={isLoading}
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-transparent border-2 border-frida-magenta text-frida-magenta px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-magenta hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ShoppingCart size={16} className="sm:w-[18px] sm:h-[18px]" />
+            <span className="hidden sm:inline">{isLoading ? 'Processando...' : 'Comprar'}</span>
+            <span className="sm:hidden">{isLoading ? '...' : '+'}</span>
+          </button>
         </div>
       </div>
     </div>

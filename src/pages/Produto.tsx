@@ -1,47 +1,54 @@
-
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
+import { useState } from "react";
 import Header from "@/components/Header";
 import ProductGallery from "@/components/ProductGallery";
 import { useProducts } from "@/hooks/useProducts";
-import { usePurchases } from "@/hooks/usePurchases";
-import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Produto() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: products, isLoading } = useProducts();
-  const { createPurchase } = usePurchases();
-  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
+  const [isBuyLoading, setIsBuyLoading] = useState(false);
 
   const produto = products?.find(p => p.id === id);
 
-  const getPromotionalPrice = (price: number) => {
-    return (price * 0.83).toFixed(2);
+  const handleBuy = async (product: any) => {
+    setIsBuyLoading(true);
+    
+    try {
+      const response = await fetch('/api/create-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        window.location.href = data.init_point;
+      } else {
+        throw new Error(data.error || 'Erro ao iniciar o pagamento.');
+      }
+    } catch (error) {
+      console.error('Falha ao criar o pagamento:', error);
+      toast({
+        title: "❌ Erro no pagamento",
+        description: error.message || "Houve um erro ao processar o pagamento. Tente novamente.",
+        duration: 5000,
+        className: "bg-gray-900 border-red-500 text-white",
+      });
+    } finally {
+      setIsBuyLoading(false);
+    }
   };
 
-  const handleComprar = async () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Login necessário",
-        description: "Faça login para finalizar sua compra.",
-        duration: 3000,
-        className: "bg-gray-900 border-frida-magenta text-white",
-      });
-      navigate('/login');
-      return;
-    }
-
-    if (!produto) return;
-
-    try {
-      await createPurchase.mutateAsync({ productId: produto.id });
-      navigate(`/curso/${produto.id}`);
-    } catch (error) {
-      console.error('Erro ao processar compra:', error);
-    }
+  const getPromotionalPrice = (price: number) => {
+    return (price * 0.83).toFixed(2);
   };
 
   if (isLoading) {
@@ -136,12 +143,12 @@ export default function Produto() {
                 </div>
 
                 <button
-                  onClick={handleComprar}
-                  disabled={createPurchase.isPending}
+                  onClick={() => handleBuy(produto)}
+                  disabled={isBuyLoading}
                   className="w-full flex items-center justify-center gap-3 bg-frida-magenta text-white px-6 py-4 rounded-lg font-bold text-lg hover:bg-frida-magenta/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ShoppingCart size={20} />
-                  {createPurchase.isPending ? 'Processando...' : 'Comprar Agora'}
+                  {isBuyLoading ? 'Processando...' : 'Comprar Agora'}
                 </button>
               </div>
             </div>
