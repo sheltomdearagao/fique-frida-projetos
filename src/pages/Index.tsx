@@ -83,10 +83,8 @@ const Index = () => {
         }} />}
           
           <div className="absolute inset-0 z-20 flex items-center">
-            <div className="px-4 lg:px-8 max-w-3xl">
-              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 font-netflix">
-                FlixFrida
-              </h1>
+            <div className="px-4 lg:px-8 max-w-3xl mx-0">
+              <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 font-netflix">Projetos da Fique Frida</h1>
               <p className="text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed">
                 Descubra o mundo da costura através dos olhos de Frida. 
                 Projetos únicos, aulas exclusivas e inspiração sem limites.
