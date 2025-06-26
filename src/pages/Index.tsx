@@ -5,6 +5,7 @@ import ProjetosSection from "@/components/ProjetosSection";
 import Carrinho from "@/components/Carrinho";
 import Login from "@/components/Login";
 import { Link } from "react-router-dom";
+import { ProductImageStack } from '@/components/ui/product-image-stack';
 
 interface CarrinhoItem {
   id: string;
