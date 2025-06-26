@@ -4,6 +4,7 @@ import { Play, Calendar } from "lucide-react";
 import Header from "@/components/Header";
 import { useUserPurchases } from "@/hooks/useUserPurchases";
 import { useAuth } from "@/contexts/AuthContext";
+import { ProductImageStack } from '@/components/ui/product-image-stack';
 
 export default function MeusProdutos() {
   const navigate = useNavigate();
