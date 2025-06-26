@@ -13,28 +13,20 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   const { toast } = useToast();
   const { data: products, isLoading, error } = useProducts();
 
-  // Debug: verificar dados dos produtos
-  console.log('Produtos carregados:', products);
-  products?.forEach(produto => {
-    console.log(`Produto: ${produto.name}`);
-    console.log(`URLs das imagens:`, produto.image_urls);
-  });
-
   const handleVerDetalhes = (produto: any) => {
     navigate(`/produto/${produto.id}`);
   };
 
   const handleAdicionarCarrinho = (e: React.MouseEvent, produto: any) => {
-    e.stopPropagation(); // Evita que o clique no card seja acionado
+    e.stopPropagation();
     
     if (onAdicionarAoCarrinho) {
-      // Converter o produto para o formato esperado pelo carrinho
       const projetoFormatado = {
         id: produto.id,
         nome: produto.name,
         preco: `R$ ${produto.price?.toFixed(2).replace('.', ',')}`,
         precoNumerico: produto.price || 0,
-        imagem: produto.image_urls?.[0] || '' // Usar primeira imagem do array
+        imagem: produto.image_urls?.[0] || ''
       };
       
       onAdicionarAoCarrinho(projetoFormatado);
@@ -42,44 +34,40 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
         title: "✅ Produto adicionado!",
         description: `${produto.name} foi adicionado ao seu carrinho.`,
         duration: 3000,
-        className: "bg-white border-2 border-frida-green shadow-lg",
+        className: "bg-gray-900 border-frida-magenta text-white",
       });
     }
   };
 
   const getPromotionalPrice = (price: number) => {
-    return (price * 0.83).toFixed(2); // 17% de desconto no PIX (29,90 -> 24,90)
+    return (price * 0.83).toFixed(2);
   };
 
-  // Função para renderizar o layout criativo das imagens
   const renderProductImages = (imageUrls: string[] | null, productName: string) => {
     if (!imageUrls || imageUrls.length === 0) {
       return (
-        <div className="w-full h-40 sm:h-48 md:h-52 bg-frida-beige flex items-center justify-center">
-          <span className="text-frida-dark/60">Sem imagem</span>
+        <div className="w-full h-40 sm:h-48 md:h-52 bg-gray-800 flex items-center justify-center">
+          <span className="text-gray-400">Sem imagem</span>
         </div>
       );
     }
 
     const mainImage = imageUrls[0];
-    const secondaryImages = imageUrls.slice(1, 3); // Pega até 2 imagens secundárias
+    const secondaryImages = imageUrls.slice(1, 3);
 
     return (
       <div className="relative w-full h-40 sm:h-48 md:h-52 flex gap-1">
-        {/* Imagem Principal */}
         <div className="flex-1 relative overflow-hidden rounded-l-lg">
           <img 
             src={mainImage}
             alt={`${productName} - Imagem principal`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             onError={(e) => {
-              console.error(`Erro ao carregar imagem principal para ${productName}:`, mainImage);
               e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
             }}
           />
         </div>
 
-        {/* Coluna de Miniaturas */}
         {secondaryImages.length > 0 && (
           <div className="w-20 sm:w-24 flex flex-col gap-1">
             {secondaryImages.map((imageUrl, index) => (
@@ -96,17 +84,15 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   alt={`${productName} - Imagem ${index + 2}`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    console.error(`Erro ao carregar imagem secundária ${index + 1} para ${productName}:`, imageUrl);
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
                   }}
                 />
               </div>
             ))}
             
-            {/* Se só tiver 1 imagem secundária, preenche o espaço restante */}
             {secondaryImages.length === 1 && (
-              <div className="flex-1 bg-frida-beige/50 rounded-br-lg flex items-center justify-center">
-                <div className="w-4 h-4 bg-frida-beige/80 rounded-full"></div>
+              <div className="flex-1 bg-gray-800 rounded-br-lg flex items-center justify-center">
+                <div className="w-4 h-4 bg-gray-600 rounded-full"></div>
               </div>
             )}
           </div>
@@ -117,9 +103,9 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
 
   if (isLoading) {
     return (
-      <section id="projetos" className="py-12 md:py-16 bg-white">
+      <section id="projetos" className="py-12 md:py-16 bg-netflix-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-frida-dark">Carregando projetos...</p>
+          <p className="text-white">Carregando projetos...</p>
         </div>
       </section>
     );
@@ -128,7 +114,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   if (error) {
     console.error('Erro ao carregar produtos:', error);
     return (
-      <section id="projetos" className="py-12 md:py-16 bg-white">
+      <section id="projetos" className="py-12 md:py-16 bg-netflix-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
           <p className="text-red-500">Erro ao carregar projetos. Tente novamente.</p>
         </div>
@@ -137,13 +123,13 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   }
 
   return (
-    <section id="projetos" className="py-12 md:py-16 bg-white">
+    <section id="projetos" className="py-12 md:py-16 bg-netflix-black">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-frida-blue mb-3 md:mb-4 font-bold">
+          <h2 className="font-netflix text-2xl sm:text-3xl md:text-4xl text-white mb-3 md:mb-4 font-bold">
             Nossos Produtos
           </h2>
-          <p className="text-base md:text-lg text-frida-dark max-w-2xl mx-auto px-4">
+          <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-4">
             Cada produto inclui moldes em PDF e acesso exclusivo à aula completa no YouTube
           </p>
         </div>
@@ -153,7 +139,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
             <div 
               key={produto.id} 
               onClick={() => handleVerDetalhes(produto)}
-              className="bg-white border-2 border-frida-beige rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+              className="bg-gray-900/95 border border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:shadow-frida-magenta/20 transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
             >
               <div className="relative overflow-hidden">
                 {renderProductImages(produto.image_urls, produto.name)}
@@ -161,38 +147,38 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
               </div>
               
               <div className="p-4 sm:p-5 lg:p-6">
-                <h3 className="font-display text-lg sm:text-xl text-frida-red mb-2 font-bold leading-tight group-hover:text-frida-orange transition-colors">
+                <h3 className="font-netflix text-lg sm:text-xl text-white mb-2 font-bold leading-tight group-hover:text-frida-magenta transition-colors">
                   {produto.name}
                 </h3>
-                <p className="text-sm sm:text-base text-frida-dark/80 mb-3 sm:mb-4 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-300 mb-3 sm:mb-4 leading-relaxed">
                   {produto.description}
                 </p>
                 
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-sm text-frida-dark/70">
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-sm text-gray-400">
                   <div className="flex items-center gap-1 sm:gap-1.5">
-                    <FileText size={14} className="sm:w-4 sm:h-4" />
+                    <FileText size={14} className="sm:w-4 sm:h-4 text-frida-magenta" />
                     <span>Moldes PDF</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-1.5">
-                    <Video size={14} className="sm:w-4 sm:h-4" />
+                    <Video size={14} className="sm:w-4 sm:h-4 text-frida-magenta" />
                     <span>Aula YouTube</span>
                   </div>
                 </div>
 
                 <div className="mb-4 sm:mb-5">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg sm:text-xl font-bold text-frida-green">
+                    <span className="text-lg sm:text-xl font-bold text-frida-magenta">
                       R$ {getPromotionalPrice(produto.price || 0).replace('.', ',')}
                     </span>
-                    <span className="text-xs sm:text-sm bg-frida-green text-white px-2 py-1 rounded font-bold">
+                    <span className="text-xs sm:text-sm bg-frida-magenta text-white px-2 py-1 rounded font-bold">
                       PIX
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-frida-dark/60 line-through">
+                    <span className="text-sm text-gray-400 line-through">
                       R$ {produto.price?.toFixed(2).replace('.', ',')}
                     </span>
-                    <span className="text-xs text-frida-dark/50">
+                    <span className="text-xs text-gray-500">
                       outros meios
                     </span>
                   </div>
@@ -204,7 +190,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                       e.stopPropagation();
                       handleVerDetalhes(produto);
                     }}
-                    className="flex-1 flex items-center justify-center gap-2 bg-frida-red text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-orange transition-all duration-300 hover:scale-105 active:scale-95"
+                    className="flex-1 flex items-center justify-center gap-2 bg-frida-magenta text-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-magenta/80 transition-all duration-300 hover:scale-105 active:scale-95"
                   >
                     <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
                     Ver Detalhes
@@ -213,7 +199,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
                   {onAdicionarAoCarrinho && (
                     <button 
                       onClick={(e) => handleAdicionarCarrinho(e, produto)}
-                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-transparent border-2 border-frida-red text-frida-red px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-red hover:text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-transparent border-2 border-frida-magenta text-frida-magenta px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-base hover:bg-frida-magenta hover:text-white transition-all duration-300 hover:scale-105 active:scale-95"
                     >
                       <ShoppingCart size={16} className="sm:w-[18px] sm:h-[18px]" />
                       <span className="hidden sm:inline">Adicionar</span>
