@@ -1,17 +1,18 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Personalização base para Fique Frida */
+/* Personalização base para FlixFrida */
 @layer base {
   body {
-    @apply font-body bg-frida-beige text-frida-brown;
+    @apply font-modern bg-netflix-black text-white;
     background-image: none;
     scroll-behavior: smooth;
   }
   h1, h2, h3, h4 {
-    @apply font-display;
+    @apply font-netflix;
     letter-spacing: 0.02em;
   }
   
@@ -90,20 +91,61 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .text-gradient-netflix {
+    background: linear-gradient(135deg, #E91E63 0%, #00BCD4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Text truncation utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
 }
 
 /* Responsividade para textos */
 @media (max-width: 640px) {
-  .font-display {
-    line-height: 1.2;
+  .font-netflix {
+    line-height: 1.1;
   }
 }
 
 /* Sombras personalizadas para elementos interativos */
 .shadow-interactive {
-  box-shadow: 0 4px 12px 0 rgba(43, 122, 120, 0.1), 0 2px 4px 0 rgba(43, 122, 120, 0.05);
+  box-shadow: 0 4px 12px 0 rgba(233, 30, 99, 0.1), 0 2px 4px 0 rgba(233, 30, 99, 0.05);
 }
 
 .shadow-interactive:hover {
-  box-shadow: 0 8px 24px 0 rgba(43, 122, 120, 0.15), 0 4px 8px 0 rgba(43, 122, 120, 0.1);
+  box-shadow: 0 8px 24px 0 rgba(233, 30, 99, 0.15), 0 4px 8px 0 rgba(233, 30, 99, 0.1);
+}
+
+/* Netflix-style scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E91E63;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #AD1457;
 }
