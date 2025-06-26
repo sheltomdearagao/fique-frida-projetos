@@ -87,8 +87,8 @@ const Index = () => {
           onProductClick={handleProductClick} 
         />
 
-        {/* Carrossel de Produtos */}
-        <div className="relative -mt-40 lg:-mt-48 z-30">
+        {/* Carrossel de Produtos - Ajustado o espaçamento */}
+        <div className="relative -mt-20 lg:-mt-32 z-30 pt-16 lg:pt-20">
           <ProductCarousel 
             title="🧵 Todos os Projetos de Costura" 
             products={allProducts} 

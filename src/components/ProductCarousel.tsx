@@ -72,7 +72,7 @@ export default function ProductCarousel({
           </button>
         )}
 
-        {/* Container dos Cards */}
+        {/* Container dos Cards - SEMPRE horizontal */}
         <div 
           ref={scrollContainerRef} 
           onScroll={handleScroll} 
@@ -80,13 +80,13 @@ export default function ProductCarousel({
             scrollbarWidth: 'none',
             msOverflowStyle: 'none'
           }} 
-          className="flex gap-3 overflow-x-auto hide-scrollbar px-4 lg:px-8 pb-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 py-4 lg:py-8"
+          className="flex gap-4 lg:gap-6 overflow-x-auto hide-scrollbar px-4 lg:px-8 pb-6"
         >
           {products.map(product => (
             <div 
               key={product.id} 
               onClick={() => onProductClick(product)} 
-              className="flex-none w-[280px] sm:w-[320px] md:w-auto bg-gray-900/95 rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:z-10 hover:shadow-2xl hover:shadow-frida-magenta/20 group/card"
+              className="flex-none w-[280px] sm:w-[300px] lg:w-[320px] xl:w-[350px] bg-gray-900/95 rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:z-10 hover:shadow-2xl hover:shadow-frida-magenta/20 group/card"
             >
               {/* Imagem do Produto */}
               <div className="relative aspect-[4/3] overflow-hidden">
