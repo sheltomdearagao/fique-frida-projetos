@@ -51,6 +51,70 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
     return (price * 0.83).toFixed(2); // 17% de desconto no PIX (29,90 -> 24,90)
   };
 
+  // Função para renderizar o layout criativo das imagens
+  const renderProductImages = (imageUrls: string[] | null, productName: string) => {
+    if (!imageUrls || imageUrls.length === 0) {
+      return (
+        <div className="w-full h-40 sm:h-48 md:h-52 bg-frida-beige flex items-center justify-center">
+          <span className="text-frida-dark/60">Sem imagem</span>
+        </div>
+      );
+    }
+
+    const mainImage = imageUrls[0];
+    const secondaryImages = imageUrls.slice(1, 3); // Pega até 2 imagens secundárias
+
+    return (
+      <div className="relative w-full h-40 sm:h-48 md:h-52 flex gap-1">
+        {/* Imagem Principal */}
+        <div className="flex-1 relative overflow-hidden rounded-l-lg">
+          <img 
+            src={mainImage}
+            alt={`${productName} - Imagem principal`}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={(e) => {
+              console.error(`Erro ao carregar imagem principal para ${productName}:`, mainImage);
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
+            }}
+          />
+        </div>
+
+        {/* Coluna de Miniaturas */}
+        {secondaryImages.length > 0 && (
+          <div className="w-20 sm:w-24 flex flex-col gap-1">
+            {secondaryImages.map((imageUrl, index) => (
+              <div 
+                key={index} 
+                className={`flex-1 relative overflow-hidden ${
+                  index === 0 ? 'rounded-tr-lg' : ''
+                } ${
+                  index === secondaryImages.length - 1 ? 'rounded-br-lg' : ''
+                }`}
+              >
+                <img 
+                  src={imageUrl}
+                  alt={`${productName} - Imagem ${index + 2}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    console.error(`Erro ao carregar imagem secundária ${index + 1} para ${productName}:`, imageUrl);
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
+                  }}
+                />
+              </div>
+            ))}
+            
+            {/* Se só tiver 1 imagem secundária, preenche o espaço restante */}
+            {secondaryImages.length === 1 && (
+              <div className="flex-1 bg-frida-beige/50 rounded-br-lg flex items-center justify-center">
+                <div className="w-4 h-4 bg-frida-beige/80 rounded-full"></div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   if (isLoading) {
     return (
       <section id="projetos" className="py-12 md:py-16 bg-white">
@@ -91,19 +155,8 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
               onClick={() => handleVerDetalhes(produto)}
               className="bg-white border-2 border-frida-beige rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
             >
-              <div className="relative">
-                <img 
-                  src={produto.image_urls?.[0] || ''}
-                  alt={produto.name}
-                  className="w-full h-40 sm:h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    console.error(`Erro ao carregar imagem para ${produto.name}:`, produto.image_urls?.[0]);
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
-                  }}
-                  onLoad={() => {
-                    console.log(`Imagem carregada com sucesso para ${produto.name}`);
-                  }}
-                />
+              <div className="relative overflow-hidden">
+                {renderProductImages(produto.image_urls, produto.name)}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
               </div>
               
