@@ -17,7 +17,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
   console.log('Produtos carregados:', products);
   products?.forEach(produto => {
     console.log(`Produto: ${produto.name}`);
-    console.log(`URL da imagem: ${produto.image_url}`);
+    console.log(`URLs das imagens:`, produto.image_urls);
   });
 
   const handleVerDetalhes = (produto: any) => {
@@ -34,7 +34,7 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
         nome: produto.name,
         preco: `R$ ${produto.price?.toFixed(2).replace('.', ',')}`,
         precoNumerico: produto.price || 0,
-        imagem: produto.image_url || ''
+        imagem: produto.image_urls?.[0] || '' // Usar primeira imagem do array
       };
       
       onAdicionarAoCarrinho(projetoFormatado);
@@ -93,11 +93,11 @@ export default function ProjetosSection({ onAdicionarAoCarrinho }: ProjetosSecti
             >
               <div className="relative">
                 <img 
-                  src={produto.image_url || ''}
+                  src={produto.image_urls?.[0] || ''}
                   alt={produto.name}
                   className="w-full h-40 sm:h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    console.error(`Erro ao carregar imagem para ${produto.name}:`, produto.image_url);
+                    console.error(`Erro ao carregar imagem para ${produto.name}:`, produto.image_urls?.[0]);
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80';
                   }}
                   onLoad={() => {

@@ -7,7 +7,7 @@ export interface Product {
   name: string;
   description: string | null;
   price: number | null;
-  image_url: string | null;
+  image_urls: string[] | null;  // Mudança: agora é um array
   youtube_unlisted_url: string | null;
   pdf_url: string | null;
   youtube_video_id: string;

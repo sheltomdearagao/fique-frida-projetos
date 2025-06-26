@@ -2,6 +2,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import Header from "@/components/Header";
+import ProductGallery from "@/components/ProductGallery";
 import { useProducts } from "@/hooks/useProducts";
 import { usePurchases } from "@/hooks/usePurchases";
 import { useAuth } from "@/contexts/AuthContext";
@@ -81,7 +82,7 @@ export default function Produto() {
     <div className="min-h-screen bg-frida-beige">
       <Header />
       <main className="pt-20">
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-4 py-8">
           <button
             onClick={() => navigate('/')}
             className="flex items-center gap-2 text-frida-dark hover:text-frida-red transition-colors mb-6"
@@ -91,16 +92,14 @@ export default function Produto() {
           </button>
 
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <div className="md:w-1/2">
-                <img
-                  src={produto.image_url || ''}
-                  alt={produto.name}
-                  className="w-full h-64 md:h-full object-cover"
-                />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Galeria de Imagens */}
+              <div className="p-6">
+                <ProductGallery images={produto.image_urls || []} />
               </div>
               
-              <div className="md:w-1/2 p-6 md:p-8">
+              {/* Informações do Produto */}
+              <div className="p-6 lg:p-8">
                 <h1 className="font-display text-2xl md:text-3xl text-frida-red mb-4 font-bold">
                   {produto.name}
                 </h1>
