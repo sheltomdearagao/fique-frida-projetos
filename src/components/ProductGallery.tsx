@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Dialog, DialogContent, DialogClose } from '@/components/ui/dialog';
-import { ProductImageStack } from '@/components/ui/product-image-stack';
+
 interface ProductGalleryProps {
   images: string[];
 }

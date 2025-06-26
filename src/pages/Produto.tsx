@@ -7,7 +7,6 @@ import { useProducts } from "@/hooks/useProducts";
 import { usePurchases } from "@/hooks/usePurchases";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { ProductImageStack } from '@/components/ui/product-image-stack';
 
 export default function Produto() {
   const { id } = useParams<{ id: string }>();
